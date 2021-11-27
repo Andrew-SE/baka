@@ -5,7 +5,7 @@ define("AUTH_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/authori
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");
 define("CLIENT_ID", "b152f06e-1464-4ee0-b177-235765ce1e0b");
-define("CLIENT_SECRET", "wBKa4XX1LexMRVClj.P~~EuIJ3E9o3U-ts");
+define("CLIENT_SECRET", "JHF7Q~uPpCdElH9Pcd~P1gSspasp6PzeJM-SM");
 define("SCOPE", "https://graph.microsoft.com/User.Read%20Calendars.ReadWrite%20MailboxSettings.ReadWrite");
 
 define("CATEGORY_CREATE_URL","https://graph.microsoft.com/v1.0/me/outlook/masterCategories");
