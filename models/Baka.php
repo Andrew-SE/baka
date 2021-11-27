@@ -22,9 +22,10 @@ class Baka extends Requests
         $postFields = "client_id=ANDR&grant_type=password&username=" . $bakaUser . "&password=" . $bakaPass;
         $urlLogin =  $school . "/api/login";
 
-        $response = $this->CurlPost($urlLogin, $this->header, $postFields);
+        $response = $this->CurlPost($urlLogin, array($this->header), $postFields);
 
         $response = json_decode($response, true);
+
         unset($_SESSION['bakalari_token']);
         $_SESSION['bakalari_token'] = $response['access_token'];
 

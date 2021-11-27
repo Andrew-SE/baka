@@ -8,7 +8,7 @@ class Requests{
         return trim($input);
     }
 
-    public function CurlPost($url, $headers, $postFields){
+    public function CurlPost($url, $headers , $postFields){
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -20,7 +20,7 @@ class Requests{
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => $postFields,
-            CURLOPT_HTTPHEADER => $headers
+            CURLOPT_HTTPHEADER => $headers,
 
         ));
         $response = curl_exec($curl);
@@ -31,7 +31,7 @@ class Requests{
         return $response;
     }
 
-    public function CurlGet($url, $headers = array())
+    public function CurlGet($url, $headers )
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(

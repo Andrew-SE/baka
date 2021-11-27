@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title><?=$title ?></title>
     <meta name="description" content="<?= $description ?>" />
-    <meta name="keywords" content="<?php //echo $key_words; ?>" />
 </head>
 <body>
     <?php require_once('inc/nav.php');?>
