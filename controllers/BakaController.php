@@ -45,7 +45,7 @@ class BakaController extends Controller
                         $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
                         $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
                         $this->redirect('microsoft');
-                        exit();
+
                     }
                 }
                 else $this->data['warning'] = "Incorrect credenctials";
