@@ -6,5 +6,5 @@
     <p><input type="text" id="bakaUser" name="bakaUser" required></p>
     <p>Vaše heslo do bakalářů</p>
     <p><input type="password" id="bakaPass" name="bakaPass" required></p>
-    <p><button type="button" id="login" name="login" > Přihlásit se </button></p>
+    <p><button type="submit" id="login" name="login" > Přihlásit se </button></p>
 </form>
