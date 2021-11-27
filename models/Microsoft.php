@@ -4,12 +4,6 @@ class Microsoft extends Requests
 {
     use Timetable;
 
-    public function Authorize()
-    {
-        $urlAuth = AUTH_URL . "?" . "client_id=" . CLIENT_ID . "&response_type=code" . "&redirect_uri=" . REDIRECT_URL . "&response_mode=query" . "&scope=" . SCOPE;
-        header("Location:  " . $urlAuth);
-    }
-
     public function Logout()
     {
 
@@ -18,10 +12,9 @@ class Microsoft extends Requests
     }
 
     //Získání access tokenu od microsoftu
-    public function Token()
+    public function Token($code)
     {
 
-        $code = $_GET['code'];
         $postFields = "client_id=" . CLIENT_ID
             . "&scope=" . SCOPE
             . "&code=" . $code
@@ -280,6 +273,7 @@ class Microsoft extends Requests
     public function CalendarAddPermanentTimetable()
     {
         $timetable = $_SESSION['timetable_permanent'];//json_decode($_SESSION['timetable_permanent'],true);
+        $timetable_permanent = $_SESSION['timetable_permanent'];//json_decode($_SESSION['timetable_permanent'],true);
 
         $requests = array();
         $this->DeleteExistingPemanentTimetable();

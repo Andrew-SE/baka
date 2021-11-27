@@ -1,7 +1,6 @@
 <?php
 define("REDIRECT_URL", "http://localhost/microsoft");
 //define("REDIRECT_URL", "https://smooth-penguin-95.loca.lt/bak_0.1/index.php");
-define("AUTH_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/authorize");
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");
 define("CLIENT_ID", "b152f06e-1464-4ee0-b177-235765ce1e0b");
