@@ -5,7 +5,7 @@ class MicrosoftController extends Controller
 
     function process($parameters)
     {
-        //$this->timetableCheck();
+        $this->timetableCheck();
 
         $MC_AUTH_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
 
