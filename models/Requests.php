@@ -25,7 +25,7 @@ class Requests{
         ));
         $response = curl_exec($curl);
         if (curl_errno($curl)) {
-            echo $_SESSION['error'] = curl_error($curl);
+            $_SESSION['error'] = curl_error($curl);
         }
         curl_close($curl);
         return $response;
@@ -47,7 +47,7 @@ class Requests{
         ));
         $response = curl_exec($curl);
         if (curl_errno($curl)) {
-            echo $_SESSION['error'] = curl_error($curl);
+            $_SESSION['error'] = curl_error($curl);
         }
         curl_close($curl);
         return $response;

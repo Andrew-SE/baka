@@ -7,7 +7,7 @@
     <meta name="description" content="<?= $description ?>" />
 </head>
 <body>
-    <?php require_once('inc/nav.php');?>
+
     <div class="container">
         <?php
             $this->controller->loadView();

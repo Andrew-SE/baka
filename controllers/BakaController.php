@@ -28,7 +28,9 @@ class BakaController extends Controller
         }
         var_dump($schoolList);
     */
-        $this->data['warning']=" a ";
+
+
+        $this->data['warning']="";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(isset($_POST['login'])){
