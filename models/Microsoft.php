@@ -42,6 +42,7 @@ class Microsoft extends Requests{
             "Content-Type: application/json",
             "Authorization: Bearer ".$_SESSION['access_token'],
         );
+
         $response=$this->CurlGet(CATEGORY_LIST_URL,$headers);
         $response = json_decode($response,true);
         $rozvrh = "Rozvrh Bakalaře";

@@ -5,6 +5,9 @@ class MenuController extends Controller
 
     function process($parameters)
     {
+
+        $this->preCheck();
+
         $microsoft = new Microsoft();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -63,6 +66,11 @@ class MenuController extends Controller
         );
 
         $this->view = 'menu';
+    }
+
+    private function preCheck(){
+        if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
+        if (!isset( $_SESSION['access_token'])) $this->redirect('microsoft');
     }
 
     private function logout(){

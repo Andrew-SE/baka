@@ -5,6 +5,8 @@ class MicrosoftController extends Controller
 
     function process($parameters)
     {
+        $this->timetableCheck();
+
         $MC_AUTH_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
 
         $mc = new Microsoft();
@@ -22,5 +24,9 @@ class MicrosoftController extends Controller
         else $this->redirect('microsoft');
 
 
+    }
+
+    private function timetableCheck(){
+        if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
     }
 }
