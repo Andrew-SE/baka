@@ -14,7 +14,8 @@ class MicrosoftController extends Controller
 
         if (!isset($_GET['code']) && !isset($_SESSION['access_token'])) {
             $urlAuth = $MC_AUTH_URL . "?" . "client_id=" . CLIENT_ID . "&response_type=code" . "&redirect_uri=" . REDIRECT_URL . "&response_mode=query" . "&scope=" . SCOPE;
-            header("Location:  " . $urlAuth);
+            echo $urlAuth;
+            //header("Location:  " . $urlAuth);
         }
         else{
             $mc->Token($_GET['code']);
