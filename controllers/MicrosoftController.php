@@ -16,14 +16,13 @@ class MicrosoftController extends Controller
             $urlAuth = $MC_AUTH_URL . "?" . "client_id=" . CLIENT_ID . "&response_type=code" . "&redirect_uri=" . REDIRECT_URL . "&response_mode=query" . "&scope=" . SCOPE;
             //echo $urlAuth;
             header("Location:  " . $urlAuth);
+            exit();
         }
         else{
             $mc->Token($_GET['code']);
-
-            if(isset($_SESSION['access_token'])) $this->redirect('menu');
-            else $this->redirect('microsoft');
         }
-
+        if(isset($_SESSION['access_token'])) $this->redirect('menu');
+        else $this->redirect('microsoft');
 
 
     }
