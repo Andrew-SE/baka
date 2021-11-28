@@ -18,7 +18,7 @@
     </div>
     <footer>
 
-        <p>Copyright © 2020 <img src="../public/logo.svg" alt="logo">AN-MA SOFT. All Rights Reserved.</p>
+        <p>Copyright © 2021 <img src="../public/logo.svg" alt="logo"> AN-MA SOFT. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
