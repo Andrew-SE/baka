@@ -1,4 +1,3 @@
-<h1>MC formulář</h1>
 
 
 <form method="post">

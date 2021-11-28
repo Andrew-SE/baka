@@ -6,7 +6,7 @@ class MenuController extends Controller
     function process($parameters)
     {
 
-        $this->preCheck();
+        //$this->preCheck();
 
         $microsoft = new Microsoft();
 

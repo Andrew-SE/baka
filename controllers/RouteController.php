@@ -21,8 +21,8 @@ class RouteController extends Controller
         $this->redirect('error');
 
     $this->controller->process($parsedUrl);
-    $this->data['title']='Default';
-    $this->data['description']='default';
+    $this->data['title']='Bakateam';
+    $this->data['description']='bakateam';
 
     $this->view='default';
   }

@@ -1,19 +1,46 @@
+/* Browser fixes*/
+/*Chrome Autofill Fix - bcg/text color */
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #293241 inset !important;
+}
+input:-webkit-autofill {
+    -webkit-text-fill-color: #fff !important;
+}
+
+
+/**/
 
 body{
     background:
             /*linear-gradient(23deg,  #98c1d9c7,  #202060c7, #62148aaa 140%),*/
             linear-gradient(195deg, #20206088 0%, #20206088 20%, #1b556e88 20%, #1b556e88 70%, #21668388 60%, #21668388 100% ),
             linear-gradient(145deg, #216683aa 0%, #216683aa 40%, #1b556eaa 40%, #216683aa 75%,#202060aa 75%, #202060aa 100% ),
-            linear-gradient(-100deg, #166e94 0%, #166e94 28%, #216683 28%, #216683 88%, #16165e 88%, #1a1a70 100%)
+            linear-gradient(-100deg, #23be6b 0%, #16c0a4 28%, #216683 28%, #216683 88%, #16165e 88%, #1a1a70 100%)
 ;
     padding: 0;
     margin: 0;
-    display: flex;
-    justify-content: center;
+    /*display: flex;*/
 }
 
 .container{
+    background-color: #293241dd;
+}
+
+footer{
+    background-color: #2b2b2b;
+}
+
+/*
+.container{
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     min-height: 100vh;
     max-width: 60%;
     background-color: #293241dd;
@@ -23,35 +50,24 @@ body{
     min-width: 60%;
 }
 
-svg{
-    position: absolute;
-    z-index: -1;
-    bottom: 0;
-    color: #0c9fda;
-}
-/*
-svg:nth-child(2){
-  top:100vh;
-  transform: translateY(-100%);
-}
-*/
-
 form{
     text-align: center;
     padding: 40px;
-    display: block;
     padding-bottom: 0;
     margin-bottom: 5px;
+    min-width: 60%;
 }
 
+/* dale upravit*/
 /*Bootstrap position-relative/position-absolute .translate-middle*/
+/*
 .center{
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
 }
-
+*/
 /*
 .process{
   position: absolute;
@@ -62,10 +78,10 @@ form{
 */
 
 /*Bakaláři login form*/
-
+/*
 hr{
     opacity: 1;
-    width: 500px;
+    width: 100%;
     margin: 0 auto 5% auto;
     color: #98c1d9;
 }
@@ -87,7 +103,7 @@ input[type = "text"],input[type = "password"]{
     font-size: 1em;
     background: none;
     color: #fff;
-    border: 2px solid #98c1d9; /*rgba(0, 181, 204, 1);*/
+    border: 2px solid #98c1d9;
     border-radius: 24px;
     outline: none;
     transition: 0.25s;
@@ -101,18 +117,8 @@ input[type = "text"]:focus,input[type = "password"]:focus{
     border-color: rgba(46, 204, 113, 1);
 }
 
-/*Chrome Autofill Fix - bcg/text color */
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px #293241 inset !important;
-}
-input:-webkit-autofill {
-    -webkit-text-fill-color: #fff !important;
-}
-/**/
+/*
 
 button {
     background: none;
@@ -132,7 +138,7 @@ button {
 }
 button:hover{
     opacity: 0.9;
-    background: #ee6c4d; /*rgba(46, 204, 113, 1);*/
+    background: #ee6c4d;
 }
 
 footer{
@@ -191,3 +197,4 @@ footer img{
     }
 
 }
+*/
