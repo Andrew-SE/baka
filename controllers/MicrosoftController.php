@@ -19,10 +19,11 @@ class MicrosoftController extends Controller
         }
         else{
             $mc->Token($_GET['code']);
+
+            if(isset($_SESSION['access_token'])) $this->redirect('menu');
+            else $this->redirect('microsoft');
         }
 
-        if(isset($_SESSION['access_token'])) $this->redirect('menu');
-        else $this->redirect('microsoft');
 
 
     }
