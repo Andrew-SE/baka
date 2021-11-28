@@ -70,7 +70,7 @@ class MenuController extends Controller
 
     private function preCheck(){
         if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
-        if (!isset( $_SESSION['access_token'])) $this->redirect('microsoft');
+        if (!isset( $_SESSION['access_token'])) $this->redirect('baka');
     }
 
     private function logout(){
