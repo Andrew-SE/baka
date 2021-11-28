@@ -24,7 +24,7 @@ class RouteController extends Controller
     $this->data['title']='Default';
     $this->data['description']='default';
 
-    $this->view='bakaForm';
+    $this->view='default';
   }
 
   public function parseUrl($url)
