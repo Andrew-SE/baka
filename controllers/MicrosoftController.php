@@ -27,6 +27,6 @@ class MicrosoftController extends Controller
     }
 
     private function timetableCheck(){
-        if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
+       // if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
     }
 }
