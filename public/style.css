@@ -1,99 +1,5 @@
 
-
-body{
-    background:
-            /*linear-gradient(23deg,  #98c1d9c7,  #202060c7, #62148aaa 140%),*/
-            linear-gradient(195deg, #20206088 0%, #20206088 20%, #1b556e88 20%, #1b556e88 70%, #21668388 60%, #21668388 100% ),
-            linear-gradient(145deg, #216683aa 0%, #216683aa 40%, #1b556eaa 40%, #216683aa 75%,#202060aa 75%, #202060aa 100% ),
-            linear-gradient(-100deg, #23be6b 0%, #16c0a4 28%, #216683 28%, #216683 88%, #16165e 88%, #1a1a70 100%)
-;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-
-}
-
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 100vh;
-    max-width: 60%;
-    background-color: #293241dd;
-    padding: 0;
-    color: #fff;
-    text-align: center;
-    min-width: 60%;
-}
-
-form{
-    text-align: center;
-    padding: 40px;
-    padding-bottom: 0;
-    margin-bottom: 5px;
-    min-width: 60%;
-}
-
-/* dale upravit*/
-/*Bootstrap position-relative/position-absolute .translate-middle*/
-.center{
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-}
-
-/*
-.process{
-  position: absolute;
-  bottom: 0;
-  font-size: 20px;
-
-}
-*/
-
-/*Bakaláři login form*/
-
-hr{
-    opacity: 1;
-    width: 100%;
-    margin: 0 auto 5% auto;
-    color: #98c1d9;
-}
-
-label{
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-::placeholder {
-    text-align: center;
-    color: #fff;
-}
-
-input[type = "text"],input[type = "password"]{
-    text-align: center;
-    width: 300px;
-    height: 45px;
-    font-size: 1em;
-    background: none;
-    color: #fff;
-    border: 2px solid #98c1d9; /*rgba(0, 181, 204, 1);*/
-    border-radius: 24px;
-    outline: none;
-    transition: 0.25s;
-
-}
-
-
-input[type = "text"]:focus,input[type = "password"]:focus{
-    width: 350px;
-    height: 50px;
-    border-color: rgba(46, 204, 113, 1);
-}
-
+/* Browser fixes*/
 /*Chrome Autofill Fix - bcg/text color */
 
 input:-webkit-autofill,
@@ -105,82 +11,18 @@ input:-webkit-autofill:active  {
 input:-webkit-autofill {
     -webkit-text-fill-color: #fff !important;
 }
-/**/
 
-button {
-    background: none;
-    width: auto;
-    text-align: center;
-    padding: 10px 40px;
-    width: 300px;
-    height: 50px;
-    font-size: 1.2em;
-    border: 2px solid #ee6c4d;
-    outline: none;
-    border-radius: 24px;
-    transition: 0.25s;
-    cursor: pointer;
-    color: #fff;
-    margin: 20px;
-}
-button:hover{
-    opacity: 0.9;
-    background: #ee6c4d; /*rgba(46, 204, 113, 1);*/
-}
+body{
+    background:
+    /*vyzkouset tohle pozadi animovat (pohyb)*/
+            /*linear-gradient(23deg,  #98c1d9c7,  #202060c7, #62148aaa 140%),*/
+            linear-gradient(195deg, #20206088 0%, #20206088 20%, #1b556e88 20%, #1b556e88 70%, #21668388 60%, #21668388 100% ),
+            linear-gradient(145deg, #216683aa 0%, #216683aa 40%, #1b556eaa 40%, #216683aa 75%,#202060aa 75%, #202060aa 100% ),
+            linear-gradient(-100deg, #23be6b 0%, #16c0a4 28%, #216683 28%, #216683 88%, #16165e 88%, #1a1a70 100%)
+;
 
-footer{
-    position: fixed;
-    display: block;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    text-align: center;
-    justify-content: center;
-    background-color: #2b2b2b;
-    font-size: 12px;
-    color: #fff;
-}
-footer p{
-    padding-top: 15px;
-    margin: 0;
-}
-footer img{
-    height:30px;
-    width: auto;
 }
 
 
-@media (max-width: 720px) {
-    input[type = "text"],input[type = "password"]{
-        width: 250px;
-        height: 40px;
-        font-size: 0.8em;
-    }
-    input[type = "text"]:focus,input[type = "password"]:focus{
-        width: 260px;
-        height: 45px;
-    }
-    button{
-        width: 250px;
-        height: 40px;
-        font-size: 0.8em;
-        margin: 0;
-    }
-    .center{
-        top: 0;
-        transform: translate(-50%,0);
-    }
-    main{
-        background-color: #293241bb;
-    }
-    hr{
-        width: auto;
-    }
 
-}
-@media (max-width: 991px) {
-    button{
-        margin-bottom: 20px;
-    }
 
-}
