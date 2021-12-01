@@ -718,6 +718,10 @@ video {
   max-width: 25%;
 }
 
+.max-w-5vh {
+  max-width: 5vw;
+}
+
 .flex-col {
   flex-direction: column;
 }
