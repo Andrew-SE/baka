@@ -63,7 +63,7 @@ module.exports = {
       },
       maxWidth: {
         'sm' : '70px',
-        'smr' : '16rem',
+        'smr' : '12rem',
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',

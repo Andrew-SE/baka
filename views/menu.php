@@ -29,6 +29,6 @@
         <p><label for="reminder" >Vypnout</label>
             <input type="checkbox" id="reminder" name="reminder" value="true" class="mb-4"></p>
         <p><label for="timer">Čas (min)</label>
-            <input type="number" id="timer" name="timer" min="1" max="20" value="5" class="max-w-sm text-center bg-transparent border-white border-2 rounded-full focus:border-blue focus:outline-none transition ease-in-out duration-500"></p>
+            <input type="number" id="timer" name="timer" min="1" max="20" value="5" class="max-w-smr text-center bg-transparent border-white border-2 rounded-full focus:border-blue focus:outline-none transition ease-in-out duration-500"></p>
     </div>
 </form>
