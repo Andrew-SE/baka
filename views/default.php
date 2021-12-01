@@ -26,7 +26,7 @@
         </div>
 
     </div>
-    <footer class="bg-gray-footer text-white   min-h-5vh flex flex-col sm:flex-row text-sm justify-center items-center">
+    <footer class="bg-gray-footer text-white p-2  min-h-5vh flex flex-col sm:flex-row text-sm justify-center items-center">
         <p class="text-xs">Copyright © <?php echo date("Y"); ?></p>
         <img class=" h-6" src="../public/logo.svg" alt="logo">
         <p class="text-xs">AN-MA SOFT. All Rights Reserved.</p>
