@@ -710,10 +710,6 @@ video {
   min-width: 30%;
 }
 
-.min-w-1\/2 {
-  min-width: 50%;
-}
-
 .max-w-1\/2 {
   max-width: 50%;
 }
