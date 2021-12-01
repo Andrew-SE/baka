@@ -5,21 +5,21 @@
     <div class="flex flex-col sm:flex-row  justify-center">
     <div class="p-3">
         <h2 class="text-lg font-semibold">Nahrát</h2>
-        <p><button type="submit" name="calendarActual" class="p-3 my-3 bg-transparent border-green rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="calendarActual" class="p-3 my-3 bg-transparent border-green rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-green hover:text-black hover:bg-green transition ease-in-out duration-500">Aktuální rozvrh</button></p>
-        <p><button type="submit" name="calendarNextWeek" class="p-3 my-3  bg-transparent border-green rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="calendarNextWeek" class="p-3 my-3  bg-transparent border-green rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-green hover:text-black hover:bg-green transition ease-in-out duration-500">Rozvrh na příští týden</button></p>
-        <p><button type="submit" name="calendarPermanent" class="p-3 my-3  bg-transparent border-green rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="calendarPermanent" class="p-3 my-3  bg-transparent border-green rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-green hover:text-black hover:bg-green transition ease-in-out duration-500">Stálý rozvrh na měsíc</button></p>
 
     </div>
     <div class="p-3">
         <h2 class="text-lg font-semibold">Smazat</h2>
-        <p><button type="submit" name="delete_next" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="delete_next" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-red-600 focus:bg-red-500 hover:text-white hover:bg-orange transition ease-in-out duration-500">Smazat příští týden</button></p>
-        <p><button type="submit" name="deletePermanent" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="deletePermanent" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-red-600 focus:bg-red-500 hover:text-white hover:bg-orange transition ease-in-out duration-500">Smazat stálý rozvrh</button></p>
-        <p><button type="submit" name="delete" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-3/5 sm:min-w-full focus:outline-none
+        <p><button type="submit" name="delete" class="p-3 my-3  bg-transparent border-orange rounded-full border-2 min-w-1/2 sm:min-w-full focus:outline-none
                focus:border-red-600 focus:bg-red-500 hover:text-white hover:bg-orange transition ease-in-out duration-500">Smazat aktuální rozvrh</button></p>
     </div>
     </div>
