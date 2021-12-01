@@ -718,8 +718,8 @@ video {
   max-width: 25%;
 }
 
-.max-w-5vh {
-  max-width: 5vw;
+.max-w-sm {
+  max-width: 70px;
 }
 
 .flex-col {
