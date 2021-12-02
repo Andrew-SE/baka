@@ -102,26 +102,6 @@ class Microsoft extends Requests{
                                 "isReminderOn" => false,
                                 "categories" => array("Rozvrh Bakaláře")
                             );
-                            /*
-                            $postFields =
-                            "{\n
-                              \"subject\": \"$title\",\n
-                              \"body\": {\n
-                                \"contentType\": \"HTML\",\n
-                                \"content\": \"$subtitle - $title  \"\n
-                              },\n
-                              \"start\": {\n
-                                \"dateTime\": \"$beginTime\",\n
-                                \"timeZone\": \"Central Europe Standard Time\"\n
-                              },\n
-                              \"end\": {\n
-                                \"dateTime\": \"$endTime\",\n
-                                \"timeZone\": \"Central Europe Standard Time\"\n
-                              },\n
-                              \"showAs\": \"free\", \n
-                              \"isReminderOn\": false, \n
-                              \"categories\":[\"Rozvrh Bakaláře\"]\n
-                            }";*/
 
                             $url = EVENT_ADD_DEFAULT_CAL;
                             $headers = array("Content-Type: application/json","Authorization: Bearer ".$_SESSION['access_token']);

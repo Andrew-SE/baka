@@ -4,6 +4,8 @@ trait Timetable{
 
     //Tohle buůde chatít změnu
     public function TimetableData($id, $what,$timetable){
+        //$id = number of day 0-4
+
         //$timetable = json_decode($timetable,true);
 
         if($what == "DayDescription"){
