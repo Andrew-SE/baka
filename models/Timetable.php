@@ -2,6 +2,9 @@
 
 trait Timetable{
 
+    public function TimetableParser($item ){
+
+    }
     //Tohle buůde chatít změnu
     public function TimetableData($id, $what,$timetable){
         //$id = number of day 0-4
