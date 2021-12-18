@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <base href="/">
+    <base href="http://baka.team/bakateam/">
     <meta charset="UTF-8">
     <title><?=$title ?></title>
     <meta name="description" content="<?= $description ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../public/tailwind.css">
-    <link rel="stylesheet" href="../public/style.css">
-
-
-    <link rel="icon" href="../public/logo.svg">
+    <link rel="stylesheet" href="/bakateam/public/tailwind.css">
+    <link rel="stylesheet" href="/bakateam/public/style.css">
+    <link rel="icon" href="/bakateam/public/logo.svg">
 
 </head>
 <body class="text-white  min-h-screen">
@@ -28,7 +26,7 @@
     </div>
     <footer class="bg-gray-footer text-white p-2  min-h-5vh flex flex-col sm:flex-row text-sm justify-center items-center">
         <p class="text-xs">Copyright © <?php echo date("Y"); ?></p>
-        <img class=" h-6" src="../public/logo.svg" alt="logo">
+        <img class=" h-6" src="/bakateam/public/logo.svg" alt="logo">
         <p class="text-xs">AN-MA SOFT. All Rights Reserved.</p>
     </footer>
 </body>

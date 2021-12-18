@@ -18,7 +18,7 @@ abstract class Controller
   }
   public function redirect($url)
   {
-    header("Location: /$url");
+    header("Location: /bakateam/$url");
     header("Connection: close");
     exit;
   }
