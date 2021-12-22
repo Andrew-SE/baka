@@ -35,7 +35,7 @@ class BakaController extends Controller
 
             if(isset($_POST['login'])){
 
-                //$shool = $_POST['school'];\
+                //$shool = $_POST['school'];
                 $_SESSION['time']=gettimeofday(true);
                 $shool = "https://bakalari.uzlabina.cz";
                 if(isset($_POST['bakaUser']) && isset($_POST['bakaPass']) && isset($shool)){

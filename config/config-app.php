@@ -1,5 +1,5 @@
 <?php
-define("REDIRECT_URL", "http://localhost/microsoft");
+define("REDIRECT_URL", "https://sluzby.uzlabina.cz/bakateam/microsoft");
 //define("REDIRECT_URL", "https://smooth-penguin-95.loca.lt/bak_0.1/index.php");
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");
