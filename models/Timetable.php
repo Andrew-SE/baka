@@ -1,5 +1,5 @@
 <?php
-
+/*
 class Timetable{
 
     public function TimetableParser($item ){
@@ -56,3 +56,4 @@ class Timetable{
     }
 
 }
+*/
