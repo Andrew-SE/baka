@@ -6,7 +6,7 @@ class MenuController extends Controller
     function process($parameters)
     {
 
-        //$this->preCheck();
+        $this->preCheck();
 
         $microsoft = new Microsoft();
 
@@ -66,6 +66,7 @@ class MenuController extends Controller
         );
 
         $this->view = 'menu';
+
     }
 
     private function preCheck(){

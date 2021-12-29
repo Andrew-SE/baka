@@ -50,7 +50,7 @@ class BakaController extends Controller
 
                     }
                 }
-                else $this->data['warning'] = "Incorrect credenctials";
+                else $this->data['warning'] = "Incomplete credenctials";
             }
         }
 

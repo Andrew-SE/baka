@@ -1,7 +1,8 @@
 <?php
 
 /**
- *
+ *  Směrování pomocí url
+ *  Url zlab.cz/cesta/paramert/...
  */
 class RouteController extends Controller
 {
@@ -9,7 +10,6 @@ class RouteController extends Controller
 
   public function process($parameters)
   {
-
     $parsedUrl = $this->parseUrl($parameters[0]);
     if (empty($parsedUrl[0]))
         $this->redirect('baka');

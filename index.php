@@ -1,6 +1,5 @@
 <?php
 mb_internal_encoding("UTF-8");
-
 function autoload($class)
 {
   if(preg_match('/Controller$/', $class))

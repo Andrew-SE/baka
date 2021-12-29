@@ -8,9 +8,9 @@ trait Timetable{
         //$timetable = json_decode($timetable,true);
 
         if($what == "DayDescription"){
-            if(!empty($timetable['Days'][$id]['DayDescription']))
-                return $timetable['Days'][$id]['DayDescription'];
-            else return $timetable['Days'][$id]['DayType'];
+            if(empty($timetable['Days'][$id]['DayDescription']))
+                return $timetable['Days'][$id]['DayType'];
+            return $timetable['Days'][$id]['DayDescription'];
         }
 
         foreach ($timetable as $all => $specific) {
@@ -34,6 +34,9 @@ trait Timetable{
                         }
                         else if($second == "Id" && $id == $val && $what == "Teachers" ){
                             return array($timetable['Teachers'][$first]['Name'],$timetable['Teachers'][$first]['Abbrev']);
+                        }
+                        else if($second == "Id" && $id == $val && $what == "Classes"){
+                            return $timetable['Classes'][$first]['Abbrev'];
                         }
                         else if($what == "Groups"&& $second == "Id" && $id == $val){
                             $grp = explode(" ",$timetable['Groups'][$first]['Abbrev']);

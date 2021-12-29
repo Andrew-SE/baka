@@ -16,7 +16,10 @@ class Microsoft extends Requests{
         $response = $this->CurlPost(ACCESS_TOKEN_URL,$headers,$postFields);
 
         $response = json_decode($response,true);
-        $_SESSION['access_token'] =  $response['access_token'];
+        $_SESSION['access_token'] =  $response['access_token']; // access token is valid for 3600 seconds
+        $_SESSION['refresh_token'] =  $response['access_token']; // refresh token to refresh access token
+        //$_SESSION['ttl'] =  $response['expires_in'];
+
     }
 
     /* Vytvoření kategorie "Rozvrh Bakaláře",

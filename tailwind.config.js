@@ -26,10 +26,12 @@ module.exports = {
         },
         orange: {
           DEFAULT: '#ee6c4d',
-
         },
         green: {
           DEFAULT: '#2ECC71'
+        },
+        red: {
+          DEFAULT: '#ff1a1a',
         },
       },
 

@@ -1,5 +1,7 @@
 <h1 class="text-xl mb-4">Přihlášení do bakalářů</h1>
+<p class="text-red">
 <?php echo $warning; ?>
+</p>
 <p class="text-2xs mb-3">Nemáme nic společného s firmou BAKALÁŘI software.</p>
 <form method="post" id="form-baka" >
 

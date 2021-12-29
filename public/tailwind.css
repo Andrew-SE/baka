@@ -710,6 +710,10 @@ video {
   min-width: 30%;
 }
 
+.min-w-1\/2 {
+  min-width: 50%;
+}
+
 .max-w-1\/2 {
   max-width: 50%;
 }
@@ -839,6 +843,11 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.text-red {
+  --tw-text-opacity: 1;
+  color: rgba(255, 26, 26, var(--tw-text-opacity));
 }
 
 .text-white {

@@ -11,3 +11,5 @@ define("CATEGORY_CREATE_URL","https://graph.microsoft.com/v1.0/me/outlook/master
 define("CATEGORY_LIST_URL","https://graph.microsoft.com/v1.0/me/outlook/masterCategories");
 define("EVENT_ADD_DEFAULT_CAL","https://graph.microsoft.com/v1.0/me/calendar/events");
 //define("EVENT_ADD_SPECIFIC_CAL","https://graph.microsoft.com/v1.0/me/calendars/".$_SESSION['calendarID']."/events");
+
+define("CERT_PATH", '/etc/ssl/uzlabina.cz.pem');

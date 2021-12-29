@@ -60,7 +60,8 @@ class Baka extends Requests
         $headers = array($this->header, "Authorization: Bearer " . $token);
         $response = $this->CurlGet($urlTimetable, $headers);
 
+        $_SESSION['timetable_next_raw'] = $response;
         $_SESSION['timetable_next'] = json_decode($response, true);
-
+        $_SESSION['timetable_next_obj'] = json_decode($response);
     }
 }
