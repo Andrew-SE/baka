@@ -8,8 +8,8 @@ class TimetableController extends Controller
        // var_dump($_SESSION['timetable_next_raw']);
        $timetableArray = $_SESSION['timetable_next'];
 
-      // var_dump($timetableArray['Hours']);
-
+       //var_dump($timetableArray['Hours']);
+        echo $_SESSION['access_token'];
 
 // $arr = json_decode($_SESSION['timetable']);
 // //var_dump($arr);
