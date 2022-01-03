@@ -34,9 +34,15 @@ class RouteController extends Controller
     $parsedURL['path']=ltrim($parsedURL['path']);
     $separatedUrl = explode("/",$parsedURL['path']);
 
-    // localhost/slozka/kontroler/parametr/ -> {slozka, konrtoler, parametr, ..} -> jenomze to ma vypadat takto {kontroler, parametr, ..}
-    // Vymaze z pole slozku ve ktere aplikace je, pri zpracovavani url bude tato slozka vadit a appka nebude spravne smerovat
-    array_shift($separatedUrl);
+    $app_path = trim(APP_PATH, "/");
+    $app_path = ltrim($app_path);
+    if(!empty(explode("/", $app_path)[0])){
+        // localhost/slozka/kontroler/parametr/ -> {slozka, konrtoler, parametr, ..} -> jenomze to ma vypadat takto {kontroler, parametr, ..}
+        // Vymaze z pole slozku ve ktere aplikace je, pri zpracovavani url bude tato slozka vadit a appka nebude spravne smerovat
+        foreach (explode("/", $app_path) as $item)
+            array_shift($separatedUrl);
+    }
+
     return $separatedUrl;
   }
 
@@ -48,4 +54,9 @@ class RouteController extends Controller
 
       return $text;
   }
+
+  public static function errorRed(){
+
+  }
+
 }

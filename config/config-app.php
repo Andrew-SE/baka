@@ -1,6 +1,12 @@
 <?php
-define("REDIRECT_URL", "https://sluzby.uzlabina.cz/bakateam/microsoft");
+// default path /
+// Pokud je aplikace jinde než ve root adresáři tak je třeba upravit na relativní cestu
+// př: "/aplikace/bakateam/"
+define("APP_PATH","/bakateam/");
+
+define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");
 //define("REDIRECT_URL", "https://smooth-penguin-95.loca.lt/bak_0.1/index.php");
+define("MC_AUTH_URL","https://login.microsoftonline.com/common/oauth2/v2.0/authorize");
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");
 define("CLIENT_ID", "b152f06e-1464-4ee0-b177-235765ce1e0b");
@@ -13,3 +19,4 @@ define("EVENT_ADD_DEFAULT_CAL","https://graph.microsoft.com/v1.0/me/calendar/eve
 //define("EVENT_ADD_SPECIFIC_CAL","https://graph.microsoft.com/v1.0/me/calendars/".$_SESSION['calendarID']."/events");
 
 define("CERT_PATH", '/etc/ssl/uzlabina.cz.pem');
+

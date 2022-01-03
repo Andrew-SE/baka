@@ -43,7 +43,8 @@ class Requests{
         $response = curl_exec($curl);
 
         if (curl_errno($curl)) {
-            $_SESSION['error'] = curl_error($curl);
+            $_SESSION['CurlError'] = curl_error($curl);
+
         }
         curl_close($curl);
         return $response;

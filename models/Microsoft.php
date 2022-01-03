@@ -3,6 +3,7 @@ class Microsoft extends Requests{
     use Timetable;
 
     //Získání microsoft access tokenu pro přístup
+
     public function Token($code)
     {
         $postFields = "client_id=".CLIENT_ID
@@ -11,31 +12,14 @@ class Microsoft extends Requests{
             ."&redirect_uri=".REDIRECT_URL
             ."&grant_type=authorization_code
         &client_secret=".CLIENT_SECRET;
+
         $headers = array("Content-Type: application/x-www-form-urlencoded");
 
         $response = $this->CurlPost(ACCESS_TOKEN_URL,$headers,$postFields);
 
         $response = json_decode($response,true);
-        $_SESSION['access_token'] =  $response['access_token']; // access token is valid for 3600 seconds
-        $_SESSION['refresh_token'] =  $response['access_token']; // refresh token to refresh access token
-        //$_SESSION['ttl'] =  $response['expires_in'];
+        return $response;
 
-    }
-
-    /* Vytvoření kategorie "Rozvrh Bakaláře",
-    podle které se rezeznává rozvrh v Outlook kalendaří */
-    public function CategoryCreate()
-    {
-        $postFields= array(
-            'displayName' => 'Rozvrh Bakaláře',
-            'color' => 'preset11',
-        );
-
-        $headers = array(
-            "Content-Type: application/json",
-            "Authorization: Bearer ".$_SESSION['access_token'],
-        );
-        $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
     }
 
     //Zjištění zdali kategorie existuje
@@ -48,17 +32,23 @@ class Microsoft extends Requests{
 
         $response=$this->CurlGet(CATEGORY_LIST_URL,$headers);
         $response = json_decode($response,true);
-        $rozvrh = "Rozvrh Bakalaře";
-        foreach($response as $all => $v){
-            if(is_array($v))
-                foreach($v as $calendarID => $calendar){
-                    foreach($calendar as $calendarInfo =>$info){
-                        if($calendarInfo == "name" && $info == $rozvrh){
-                            $_SESSION['calendarID'] = $response[$all][$calendarID]['id'];
-                        }
-                    }
-                }
-        }
+        return $response;
+    }
+
+    /* Vytvoření kategorie "Rozvrh Bakaláře",
+    podle které se rezeznává rozvrh v Outlook kalendaří */
+    public function CategoryCreate($name)
+    {
+        $postFields= array(
+            'displayName' => $name,
+            'color' => 'preset11',
+        );
+
+        $headers = array(
+            "Content-Type: application/json",
+            "Authorization: Bearer ". $_SESSION['access_token'],
+        );
+        $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
     }
 
 

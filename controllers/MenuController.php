@@ -3,19 +3,20 @@
 class MenuController extends Controller
 {
     private $microsoftCont;
+    private $CATEGORY = "Rozvrh Bakaláře";
 
     function __construct()
     {
+        $this->preCheck();
         $this->microsoftCont = new Microsoft();
+        $this->calendarCategory();
     }
 
     function process($parameters)
     {
-
         $this->preCheck();
-
         $microsoft = new Microsoft();
-
+        //echo $_SESSION['access_token'];
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(isset($_POST['reminder']) and $_POST['reminder']=="true"){
@@ -31,25 +32,12 @@ class MenuController extends Controller
                 switch($key){
 
                     case 'calendarPermanent':
-                        $microsoft->CategoryExists();
-                        if(!isset($_SESSION['calendarID'])){
-                            $microsoft->CategoryCreate();
-                        }
-
                         $microsoft->CalendarAddPermanentTimetable($reminder,$time);
                         break;
                     case 'calendarActual':
-                        $microsoft->CategoryExists();
-                        if(!isset($_SESSION['calendarID'])){
-                            $microsoft->CategoryCreate();
-                        }
                         $microsoft->CalendarAddTimetable(1,$reminder,$time);
                         break;
                     case 'calendarNextWeek':
-                        $microsoft->CategoryExists();
-                        if(!isset($_SESSION['calendarID'])){
-                            $microsoft->CategoryCreate();
-                        }
                         $microsoft->CalendarAddTimetable(0,$reminder,$time);
                         break;
 
@@ -83,5 +71,20 @@ class MenuController extends Controller
     private function logout(){
         $urlLogOut = LOGOUT_URL."?"."client_id=". CLIENT_ID."&response_type=code"."&redirect_uri=". REDIRECT_URL."&response_mode=query"."&scope=". SCOPE;
         header("Location:  ". $urlLogOut);
+    }
+
+
+    /* Kategorie v outlook kalendáři */
+    private function calendarCategory(){
+
+        //Zjištění zdali kategorie existuje
+        $calendar = $this->microsoftCont->CategoryExists();
+        foreach ($calendar['value'] as $category){
+            if ($category['displayName'] == $this->CATEGORY){
+                $_SESSION['calendarID'] = $category['id'];
+            }
+        }
+        if (empty($_SESSION['calendarID'])) $this->microsoftCont->CategoryCreate($this->CATEGORY);
+
     }
 }
