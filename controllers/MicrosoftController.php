@@ -3,6 +3,7 @@
 class MicrosoftController extends Controller
 {
 
+
     function process($parameters)
     {
         $this->timetableCheck();

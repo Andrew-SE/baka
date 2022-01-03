@@ -2,6 +2,12 @@
 
 class MenuController extends Controller
 {
+    private $microsoftCont;
+
+    function __construct()
+    {
+        $this->microsoftCont = new Microsoft();
+    }
 
     function process($parameters)
     {
