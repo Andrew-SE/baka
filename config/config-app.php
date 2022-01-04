@@ -4,8 +4,8 @@
 // př: "/aplikace/bakateam/"
 define("APP_PATH","/bakateam/");
 
-define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");
-//define("REDIRECT_URL", "https://smooth-penguin-95.loca.lt/bak_0.1/index.php");
+//define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");
+define("REDIRECT_URL", "http://localhost".APP_PATH."microsoft");
 define("MC_AUTH_URL","https://login.microsoftonline.com/common/oauth2/v2.0/authorize");
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");

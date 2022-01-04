@@ -1,6 +1,6 @@
 <?php
 
-trait Timetable{
+trait  Timetable{
 
     //Tohle buůde chatít změnu
     //TOHLE POTREBUJE ZMENU !!! NESMI SPATRIT SVETLO SVETA !!!

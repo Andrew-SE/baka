@@ -8,8 +8,6 @@ class MicrosoftController extends Controller
     {
         $this->timetableCheck();
 
-
-
         $mc = new Microsoft();
 
 

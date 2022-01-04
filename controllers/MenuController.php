@@ -2,21 +2,23 @@
 
 class MenuController extends Controller
 {
-    private $microsoftCont;
-    private $CATEGORY = "Rozvrh Bakaláře";
+    use Timetable;
+
+    private Microsoft $microsoftMod;
+    private string $CATEGORY = "Rozvrh Bakaláře";
 
     function __construct()
     {
         $this->preCheck();
-        $this->microsoftCont = new Microsoft();
-        $this->calendarCategory();
+        $this->microsoftMod = new Microsoft();
     }
 
     function process($parameters)
     {
         $this->preCheck();
-        $microsoft = new Microsoft();
+        $this->calendarCategory();
         //echo $_SESSION['access_token'];
+        $this->CalendarTimetableAdd(false, 1);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(isset($_POST['reminder']) and $_POST['reminder']=="true"){
@@ -32,23 +34,23 @@ class MenuController extends Controller
                 switch($key){
 
                     case 'calendarPermanent':
-                        $microsoft->CalendarAddPermanentTimetable($reminder,$time);
+                        $this->microsoftMod->CalendarAddPermanentTimetable($reminder,$time);
                         break;
                     case 'calendarActual':
-                        $microsoft->CalendarAddTimetable(1,$reminder,$time);
+                        $this->microsoftMod->CalendarAddTimetable(1,$reminder,$time);
                         break;
                     case 'calendarNextWeek':
-                        $microsoft->CalendarAddTimetable(0,$reminder,$time);
+                        $this->microsoftMod->CalendarAddTimetable(0,$reminder,$time);
                         break;
 
                     case 'delete':
-                        $microsoft->DeleteExistingTimetable($_SESSION['timetable']);
+                        $this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable']);
                         break;
                     case 'delete_next':
-                        $microsoft->DeleteExistingTimetable($_SESSION['timetable_next']);
+                        $this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable_next']);
                         break;
                     case 'deletePermanent':
-                        $microsoft->DeleteExistingPemanentTimetable();
+                        $this->microsoftMod->DeleteExistingPemanentTimetable();
                         break;
                 }
             }
@@ -78,13 +80,43 @@ class MenuController extends Controller
     private function calendarCategory(){
 
         //Zjištění zdali kategorie existuje
-        $calendar = $this->microsoftCont->CategoryExists();
+        $calendar = $this->microsoftMod->CategoryExists();
         foreach ($calendar['value'] as $category){
             if ($category['displayName'] == $this->CATEGORY){
                 $_SESSION['calendarID'] = $category['id'];
             }
         }
-        if (empty($_SESSION['calendarID'])) $this->microsoftCont->CategoryCreate($this->CATEGORY);
+
+        if (empty($_SESSION['calendarID'])) $this->microsoftMod->CategoryCreate($this->CATEGORY);
+    }
+
+    private function CalendarTimetableAdd(bool $reminder, int $timer, string $type = null){
+        switch ($type){
+            case "next":
+                $timetable = $_SESSION['timetable_next'];
+
+                break;
+            case "permanent":
+                $timetable = $_SESSION['timetable_permanent'];
+                break;
+            default:
+                $timetable = $_SESSION['timetable'];
+        }
+
+        $this->CalendarTimetableRemove($timetable);
 
     }
+
+    private function CalendarTimetableRemove($timetable){
+
+        $beginTime = date("H:i:s.u",strtotime($timetable['Hours'][0]['BeginTime']));
+        $endTime = date("H:i:s.u",strtotime($timetable['Hours'][count($timetable['Hours'])-1]['EndTime']));
+
+        $firstDay = date( "d.m.Y" ,strtotime($timetable['Days'][0]['Date']));
+        $lastDay = date( "d.m.Y" ,strtotime($timetable['Days'][count($timetable['Days'])-1]['Date']));
+
+        echo date("d.m.Y",  strtotime("+1 day", strtotime($timetable['Days'][0]['Date'])));
+        $today = date("d.m.Y");
+    }
+
 }
