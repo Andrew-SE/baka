@@ -87,4 +87,5 @@ class MenuController extends Controller
         if (empty($_SESSION['calendarID'])) $this->microsoftCont->CategoryCreate($this->CATEGORY);
 
     }
+
 }
