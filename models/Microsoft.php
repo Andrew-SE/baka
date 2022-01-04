@@ -51,6 +51,18 @@ class Microsoft extends Requests{
         $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
     }
 
+    public function GetEvents($beginTime, $endTime)
+    {
+        $url = "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime=$beginTime&endDateTime=$endTime&\$select=id,categories&\$top=100";
+        $headers = array(
+            "Content-Type: application/json",
+            "Prefer: outlook.timezone=\"Central Europe Standard Time\"",
+            "Authorization: Bearer " . $_SESSION['access_token'],
+        );
+        $response = $this->CurlGet($url, $headers);
+        return json_decode($response);
+    }
+
 
     // Přidání rozvrhu do kalendáře (aktuální/příští týden)
     public function CalendarAddTimetable($actual,$reminder,$timer){
@@ -408,8 +420,12 @@ class Microsoft extends Requests{
             "Authorization: Bearer ".$_SESSION['access_token'],
         );
         $response=$this->CurlGet($url, $headers);
-        $responseArray = json_decode($response,true);
 
+
+        //print("<pre>". print_r($response)."</pre>");
+
+        $responseArray = json_decode($response,true);
+        //print("<pre>". print_r($responseArray["value"])."</pre>");
         $categoryName = "Rozvrh Bakaláře";
         $requests = array();
         $i = 0;

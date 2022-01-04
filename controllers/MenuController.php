@@ -38,6 +38,7 @@ class MenuController extends Controller
                         break;
                     case 'calendarActual':
                         $this->microsoftMod->CalendarAddTimetable(1,$reminder,$time);
+
                         break;
                     case 'calendarNextWeek':
                         $this->microsoftMod->CalendarAddTimetable(0,$reminder,$time);
@@ -115,7 +116,10 @@ class MenuController extends Controller
         $firstDay = date( "d.m.Y" ,strtotime($timetable['Days'][0]['Date']));
         $lastDay = date( "d.m.Y" ,strtotime($timetable['Days'][count($timetable['Days'])-1]['Date']));
 
-        echo date("d.m.Y",  strtotime("+1 day", strtotime($timetable['Days'][0]['Date'])));
+        //print_r( date_diff( date_create_from_format($firstDay), date_create_from_format($lastDay)) );
+
+        //tomorrow
+        //date("d.m.Y",  strtotime("+1 day", strtotime($timetable['Days'][0]['Date'])));
         $today = date("d.m.Y");
     }
 
