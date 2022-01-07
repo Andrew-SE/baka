@@ -17,8 +17,8 @@ class MenuController extends Controller
     {
         $this->preCheck();
         $this->calendarCategory();
-        //echo $_SESSION['access_token'];
-        $this->CalendarTimetableAdd(false, 1);
+
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(isset($_POST['reminder']) and $_POST['reminder']=="true"){
@@ -29,6 +29,7 @@ class MenuController extends Controller
                 $reminder=true;
                 $time = $_POST['timer'];
             }
+
 
             foreach($_POST as $key => $val){
                 switch($key){
@@ -45,13 +46,20 @@ class MenuController extends Controller
                         break;
 
                     case 'delete':
-                        $this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable']);
+                        //$this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable']);
+                        $events = $this->CalendarGetEvents($_SESSION['timetable']);
+                        $this->CalendarTimetableRemove($events);
+
                         break;
                     case 'delete_next':
-                        $this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable_next']);
+                        //$this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable_next']);
+                        $events = $this->CalendarGetEvents($_SESSION['timetable_next']);
+                        $this->CalendarTimetableRemove($events);
                         break;
                     case 'deletePermanent':
-                        $this->microsoftMod->DeleteExistingPemanentTimetable();
+                        //$this->microsoftMod->DeleteExistingPemanentTimetable();
+                        $events = $this->CalendarGetEvents($_SESSION['timetable'],"permanent");
+                        $this->CalendarTimetableRemove($events);
                         break;
                 }
             }
@@ -77,50 +85,102 @@ class MenuController extends Controller
     }
 
 
-    /* Kategorie v outlook kalendáři */
+    /**
+     * Zjistí zda-li existuje kategorie $CATEGORY v outlook kalendáři, případně ji vytvoří
+     * @return void
+     */
     private function calendarCategory(){
-
-        //Zjištění zdali kategorie existuje
+        /**
+         *
+         */
         $calendar = $this->microsoftMod->CategoryExists();
-        foreach ($calendar['value'] as $category){
-            if ($category['displayName'] == $this->CATEGORY){
-                $_SESSION['calendarID'] = $category['id'];
+        if(!empty($calendar['value'])) {
+            foreach ($calendar['value'] as $category) {
+                if ($category['displayName'] == $this->CATEGORY) {
+                    $_SESSION['calendarID'] = $category['id'];
+                }
             }
         }
-
         if (empty($_SESSION['calendarID'])) $this->microsoftMod->CategoryCreate($this->CATEGORY);
     }
 
-    private function CalendarTimetableAdd(bool $reminder, int $timer, string $type = null){
+    private function CalendarTimetableAdd(bool $reminder, int $timer = 0, string $type = null){
         switch ($type){
             case "next":
                 $timetable = $_SESSION['timetable_next'];
-
                 break;
             case "permanent":
                 $timetable = $_SESSION['timetable_permanent'];
                 break;
             default:
                 $timetable = $_SESSION['timetable'];
+
         }
 
-        $this->CalendarTimetableRemove($timetable);
-
     }
 
-    private function CalendarTimetableRemove($timetable){
-
-        $beginTime = date("H:i:s.u",strtotime($timetable['Hours'][0]['BeginTime']));
-        $endTime = date("H:i:s.u",strtotime($timetable['Hours'][count($timetable['Hours'])-1]['EndTime']));
-
-        $firstDay = date( "d.m.Y" ,strtotime($timetable['Days'][0]['Date']));
-        $lastDay = date( "d.m.Y" ,strtotime($timetable['Days'][count($timetable['Days'])-1]['Date']));
-
-        //print_r( date_diff( date_create_from_format($firstDay), date_create_from_format($lastDay)) );
-
-        //tomorrow
-        //date("d.m.Y",  strtotime("+1 day", strtotime($timetable['Days'][0]['Date'])));
-        $today = date("d.m.Y");
+    /**
+     * @param array $eventsIds
+     * @return void
+     */
+    private function CalendarTimetableRemove(array $eventsIds)
+    {
+        $this->microsoftMod->DeleteEvents($eventsIds);
     }
+
+
+    /**
+     * Následně se všechny eventy vyfiltrují a do pole se uloží id eventů které jsou v definované kategorii
+     * @param array $timetable Rozvrh podle ze kterého se berou data a časy
+     * @param string|null $type "permanent" pro stálý rozvrh, jinak default
+     * @param bool $fromToday true, chceme-li eventy od dneška
+     * @return array pole s id všech nelezených eventů vzpadajících do definované kategorie $CATEGORY
+     */
+    private function CalendarGetEvents(array $timetable, string $type = null, bool $fromToday = false): array
+    {
+        /**
+
+         */
+        if ($fromToday)
+            $firstDay = strtotime("now");
+        else
+            $firstDay = strtotime($timetable['Days'][0]['Date']);
+
+        //Casy 1. a posledni mozne hodiny, microsoft nevidel 1. hodiny, tak jsem prebral a přidal +15 min
+        $beginTime = date("H:i:s.u", strtotime("-15 min", strtotime($timetable['Hours'][0]['BeginTime'])));
+        $endTime = date("H:i:s.u", strtotime("+15 min",  strtotime($timetable['Hours'][count($timetable['Hours']) - 1]['EndTime'])));
+        if ($type === "permanent") $weeks = 4;
+        else $weeks = 1;
+
+
+        //Projde všechny dny až na víkendy a vytáhne si všechny request pro den
+        //a náslené získání eventů
+        $eventsRequests = array();
+        for ($day = 0; $day < $weeks * 7; $day++) {
+            $date = date("Y-m-d",  strtotime("+$day day", $firstDay));
+
+            $dateTimeBegin = $date . "T". $beginTime;
+            $dateTimeEnd = $date . "T". $endTime;
+            $eventsRequests[] = $this->microsoftMod->GetEventsRequest($dateTimeBegin,$dateTimeEnd, $day+1);
+            //Víkendy nechci
+            if($day % 7 == 4) {
+                $day+=2;
+            }
+        }
+        $responses = $this->microsoftMod->GetEvents($eventsRequests);
+
+        //Projde všechny eventy dne a porovná kategorie, pokud je kategorie $CATEGORY, přidá id do pole
+        $events = array();
+        foreach ($responses as $response) {
+            foreach ($response['body']['value'] as $event => $val) {
+                foreach ($val['categories'] as $category) {
+                    if ($category == $this->CATEGORY) $events[] = $val['id'];
+                }
+            }
+        }
+        return $events;
+    }
+
+
 
 }

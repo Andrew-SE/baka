@@ -17,8 +17,13 @@ class MicrosoftController extends Controller
             header("Location:  " . $urlAuth);
             exit();
         }
+/*        elseif(isset($_SESSION['refresh_token'])){
+            $tokenResponse = $mc->Token(1,null, $_SESSION['refresh_token']);
+            $_SESSION['access_token'] =  $tokenResponse['access_token']; // access token is valid for 3600 seconds
+            $_SESSION['refresh_token'] =  $tokenResponse['refresh_token']; // refresh token to refresh access token
+        }*/
         else{
-            $tokenResponse = $mc->Token($_GET['code']);
+            $tokenResponse = $mc->Token(0,$_GET['code']);
             $_SESSION['access_token'] =  $tokenResponse['access_token']; // access token is valid for 3600 seconds
             $_SESSION['refresh_token'] =  $tokenResponse['refresh_token']; // refresh token to refresh access token
             //$_SESSION['ttl'] =  $tokenResponse['expires_in'];

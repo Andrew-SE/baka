@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <base href="http://baka.team/bakateam/">
+  <!--  <base href="http://baka.team/bakateam/">-->
     <meta charset="UTF-8">
     <title><?=$title ?></title>
     <meta name="description" content="<?= $description ?>" />

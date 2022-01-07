@@ -5,11 +5,10 @@ class TimetableController extends Controller
 
     function process($parameters)
     {
-       // var_dump($_SESSION['timetable_next_raw']);
-       $timetableArray = $_SESSION['timetable_next'];
+        print_r($_SESSION['timetable_raw']);
+        $timetableArray = $_SESSION['timetable'];
 
-       //var_dump($timetableArray['Hours']);
-        echo $_SESSION['access_token'];
+        //var_dump($timetableArray['Hours']);
 
 // $arr = json_decode($_SESSION['timetable']);
 // //var_dump($arr);

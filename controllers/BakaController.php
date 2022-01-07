@@ -7,7 +7,6 @@ class BakaController extends Controller
     {
         $bak = new Baka();
 
-
         $this->header = array(
             'title' => 'Bakalari login Form',
             'description' => 'Bakalari login form'

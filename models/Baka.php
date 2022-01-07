@@ -62,6 +62,5 @@ class Baka extends Requests
 
         $_SESSION['timetable_next_raw'] = $response;
         $_SESSION['timetable_next'] = json_decode($response, true);
-        $_SESSION['timetable_next_obj'] = json_decode($response);
     }
 }

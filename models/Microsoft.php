@@ -2,37 +2,87 @@
 class Microsoft extends Requests{
     use Timetable;
 
-    //Získání microsoft access tokenu pro přístup
 
-    public function Token($code)
+    //Later
+    public function batchRequest($requests){
+
+        $request=array("requests"=>$requests);
+        $response = $this->CurlPost("https://graph.microsoft.com/v1.0/\$batch", array("Content-Type: application/json","Authorization: Bearer ".$_SESSION['access_token']), json_encode($request));
+        return json_decode($response, true);
+
+        //error OF Response
+    }
+
+    public function batchArraysPrep(array $requestsArray): array
     {
-        $postFields = "client_id=".CLIENT_ID
-            ."&scope=".SCOPE
-            ."&code=".$code
-            ."&redirect_uri=".REDIRECT_URL
-            ."&grant_type=authorization_code
-        &client_secret=".CLIENT_SECRET;
+        return array_chunk($requestsArray,4);
+    }
 
+    public function batchArraysRequest(array $requestsArray): array
+    {
+        $responses = array();
+        foreach ($requestsArray as $requests){
+            $responses = array_merge($responses, $this->batchRequest($requests)['responses']);
+            //$responses[]= $this->batchRequest($requests)['responses'];
+        }
+
+        return $responses;
+    }
+
+
+    /**
+     * Získání pole obsahující přístupové tokeny
+     * @param int $type 0 pro
+     * @param string|null $code Code pro získání tokenů
+     * @param string|null $refreshToken Refresh token pro obnovení 'access tokenu' bez code
+     * @return mixed Response pole s tokeny
+     */
+    public function Token(int $type,string $code = null, string $refreshToken = null )
+    {
+        /**
+         * Získání pole s access a refresh tokenem
+
+         */
+        if ($type === 0) {
+            $postFields = "client_id=" . CLIENT_ID
+                . "&scope=" . SCOPE
+                . "&code=" . $code
+                . "&redirect_uri=" . REDIRECT_URL
+                . "&grant_type=authorization_code
+                &client_secret=" . CLIENT_SECRET;
+        }
+        elseif ($type === 1) {
+            $postFields = "client_id=" . CLIENT_ID
+                . "&scope=" . SCOPE
+                . "&refresh_token=" . $refreshToken
+                . "&redirect_uri=" . REDIRECT_URL
+                . "&grant_type=refresh_token
+                &client_secret=" . CLIENT_SECRET;
+        }
         $headers = array("Content-Type: application/x-www-form-urlencoded");
 
         $response = $this->CurlPost(ACCESS_TOKEN_URL,$headers,$postFields);
 
-        $response = json_decode($response,true);
-        return $response;
+        return json_decode($response,true);
 
     }
 
-    //Zjištění zdali kategorie existuje
+    /**
+     * Získání kategorií používaných v kalendářig
+     * @return mixed
+     */
     public function CategoryExists()
     {
+        /**
+         * Zjištění zdali kategorie existuje
+         */
         $headers = array(
             "Content-Type: application/json",
             "Authorization: Bearer ".$_SESSION['access_token'],
         );
 
         $response=$this->CurlGet(CATEGORY_LIST_URL,$headers);
-        $response = json_decode($response,true);
-        return $response;
+        return json_decode($response,true);
     }
 
     /* Vytvoření kategorie "Rozvrh Bakaláře",
@@ -51,18 +101,52 @@ class Microsoft extends Requests{
         $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
     }
 
-    public function GetEvents($beginTime, $endTime)
+    public function GetEvents($requestsArray): array
     {
-        $url = "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime=$beginTime&endDateTime=$endTime&\$select=id,categories&\$top=100";
-        $headers = array(
-            "Content-Type: application/json",
-            "Prefer: outlook.timezone=\"Central Europe Standard Time\"",
-            "Authorization: Bearer " . $_SESSION['access_token'],
-        );
-        $response = $this->CurlGet($url, $headers);
-        return json_decode($response);
+        $preparedRequests = $this->batchArraysPrep($requestsArray);
+        return $this->batchArraysRequest($preparedRequests);
     }
 
+    public function GetEventsRequest($beginTime, $endTime, $id): array
+    {
+        return array(
+            "id"=> $id,
+            "method"=> "GET",
+            "url"=> "me/calendar/calendarView?startDateTime=$beginTime&endDateTime=$endTime&\$select=id,categories&\$top=100",
+            "headers"=> [
+            "Content-Type"=> "application/json",
+            "Prefer: outlook.timezone=\"Central Europe Standard Time\"",
+            ],
+        );
+    }
+
+    /**
+     * Smazání eventů
+     * @param array $events pole s id eventů, které chceme smazat
+     * @return void
+     */
+    public function DeleteEvents(array $events){
+        $requests= array();
+
+        for ($pos = 0; $pos < count($events);$pos++){
+            $requests[] = array(
+                "id" => $pos+1,
+                "method" => "DELETE",
+                "url" => "/me/events/" . $events[$pos],
+                //"headers"=>array("Authorization"=>"Bearer ".$_SESSION['access_token']),
+            );
+        }//prepare batch and foreach batch fu
+
+        $requestsBatch = $this->batchArraysPrep($requests);
+        $this->batchArraysRequest($requestsBatch);
+    }
+
+///
+///
+///
+///
+///
+///     OLD TO GO
 
     // Přidání rozvrhu do kalendáře (aktuální/příští týden)
     public function CalendarAddTimetable($actual,$reminder,$timer){
@@ -73,7 +157,6 @@ class Microsoft extends Requests{
         }
 
         $requests = array();
-        $this->DeleteExistingTimetable($timetable);
 
         foreach($timetable as $all => $specific){
             if($all == "Days"){
@@ -273,7 +356,6 @@ class Microsoft extends Requests{
         $timetable_permanent = $_SESSION['timetable_permanent'];//json_decode($_SESSION['timetable_permanent'],true);
 
         $requests = array();
-        $this->DeleteExistingPemanentTimetable();
 
         for ($i=7; $i <= 28 ; $i+=7) {
             foreach($timetable_permanent as $all => $specific){
@@ -381,91 +463,5 @@ class Microsoft extends Requests{
         }
     }
 
-    //Už nevím proč to tu je :d
-    //potom předělat
-    //predelat, ze casy se berou z rozvrhu
-    public function DeleteExistingTimetable($timetable)
-    {
-        for($day=0;$day <= 4; $day++){
-            $beginTime = $this->TimetableData($day,"Days",$timetable)."T06:00:00.0000000";
-            $endTime = $this->TimetableData($day,"Days",$timetable)."T18:00:00.0000000";
-            $this->GetEventsToDelete($beginTime, $endTime);
-        }
-    }
 
-    public function DeleteExistingPemanentTimetable()
-    {
-        $timetable = $_SESSION['timetable_permanent'];
-        for ($i=7; $i <= 28 ; $i+=7) {
-            for($day=0;$day <= 4; $day++){
-                $date = $this->TimetableData($day,"Days",$timetable);
-                $date=strtotime($date);
-                $date=strtotime("+$i day",$date);
-                $date= date('Y-m-d',$date);
-                $beginTime = $date."T06:00:00.0000000";
-                $endTime = $date."T18:00:00.0000000";
-                $this->GetEventsToDelete($beginTime, $endTime);
-            }
-        }
-    }
-
-
-    //Vymazání rozvrhu
-    public function GetEventsToDelete($beginTime, $endTime)
-    {
-        $url = "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime=$beginTime&endDateTime=$endTime&\$select=id,categories&\$top=100";
-        $headers = array(
-            "Content-Type: application/json",
-            "Prefer: outlook.timezone=\"Central Europe Standard Time\"",
-            "Authorization: Bearer ".$_SESSION['access_token'],
-        );
-        $response=$this->CurlGet($url, $headers);
-
-
-        //print("<pre>". print_r($response)."</pre>");
-
-        $responseArray = json_decode($response,true);
-        //print("<pre>". print_r($responseArray["value"])."</pre>");
-        $categoryName = "Rozvrh Bakaláře";
-        $requests = array();
-        $i = 0;
-
-        foreach($responseArray as $all => $values){
-            if(is_array($values))
-                foreach($values as $value => $events){
-                    foreach($events as $event =>$info){
-                        if(is_array($info)){
-                            foreach($info as $categories => $category){
-                                if($category == $categoryName){
-                                    $id = $responseArray[$all][$value]['id'];
-                                    if(isset($id)){
-                                        $i++;
-                                        array_push($requests,array(
-                                            "id"=>"$i",
-                                            "method"=>"DELETE",
-                                            "url"=>"/me/events/".$id,
-                                            "headers"=>array("Authorization"=>"Bearer ".$_SESSION['access_token']),
-                                        ));
-
-                                    }
-                                    if($i>3){
-                                        $request=array("requests"=>$requests);
-                                        $this->CurlPost("https://graph.microsoft.com/v1.0/\$batch", array("Content-Type: application/json","Authorization: Bearer ".$_SESSION['access_token']), json_encode($request));
-                                        unset($request);
-                                        unset($requests);
-                                        $request = array();
-                                        $requests = array();
-                                        $id = 0;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-        }
-        if($i != 0){
-            $request=array("requests"=>$requests);
-            $this->CurlPost("https://graph.microsoft.com/v1.0/\$batch", array("Content-Type: application/json","Authorization: Bearer ".$_SESSION['access_token']), json_encode($request));
-        }
-    }
 }
