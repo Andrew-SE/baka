@@ -1,16 +1,20 @@
 <?php
+require 'libs/TimetableProcess.php';
+require "libs/TimetableEventPostfields.php";
+require "libs/TimetableEvent.php";
 
 class MenuController extends Controller
 {
-    use Timetable;
 
+    private TimetableProcess $timetableProcess;
     private Microsoft $microsoftMod;
-    private string $CATEGORY = "Rozvrh Bakaláře";
+    private string $CATEGORY = CATEGORY;
 
     function __construct()
     {
         $this->preCheck();
         $this->microsoftMod = new Microsoft();
+        $this->timetableProcess = new TimetableProcess();
     }
 
     function process($parameters)
@@ -30,36 +34,28 @@ class MenuController extends Controller
                 $time = $_POST['timer'];
             }
 
-
             foreach($_POST as $key => $val){
                 switch($key){
 
-                    case 'calendarPermanent':
-                        $this->microsoftMod->CalendarAddPermanentTimetable($reminder,$time);
-                        break;
                     case 'calendarActual':
-                        $this->microsoftMod->CalendarAddTimetable(1,$reminder,$time);
-
+                        $this->CalendarTimetableActions(false,"actual", $reminder, $time);
+                        break;
+                    case 'calendarPermanent':
+                        $this->CalendarTimetableActions(false,"permanent", $reminder, $time);
                         break;
                     case 'calendarNextWeek':
-                        $this->microsoftMod->CalendarAddTimetable(0,$reminder,$time);
+                        $this->CalendarTimetableActions(false,"next", $reminder, $time);
                         break;
 
                     case 'delete':
-                        //$this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable']);
-                        $events = $this->CalendarGetEvents($_SESSION['timetable']);
-                        $this->CalendarTimetableRemove($events);
+                        $this->CalendarTimetableActions(true);
 
                         break;
                     case 'delete_next':
-                        //$this->microsoftMod->DeleteExistingTimetable($_SESSION['timetable_next']);
-                        $events = $this->CalendarGetEvents($_SESSION['timetable_next']);
-                        $this->CalendarTimetableRemove($events);
+                        $this->CalendarTimetableActions(true,"next");
                         break;
                     case 'deletePermanent':
-                        //$this->microsoftMod->DeleteExistingPemanentTimetable();
-                        $events = $this->CalendarGetEvents($_SESSION['timetable'],"permanent");
-                        $this->CalendarTimetableRemove($events);
+                        $this->CalendarTimetableActions(true,"permanent");
                         break;
                 }
             }
@@ -104,17 +100,27 @@ class MenuController extends Controller
         if (empty($_SESSION['calendarID'])) $this->microsoftMod->CategoryCreate($this->CATEGORY);
     }
 
-    private function CalendarTimetableAdd(bool $reminder, int $timer = 0, string $type = null){
+    private function CalendarTimetableActions(bool $deleteTimetableOnly, string $type = null, bool $reminder = false, int $time = 0){
         switch ($type){
             case "next":
+                $timetable_obj = $_SESSION['timetable_next_obj'];
                 $timetable = $_SESSION['timetable_next'];
                 break;
             case "permanent":
+                $timetable_obj = $_SESSION['timetable_permanent_obj'];
                 $timetable = $_SESSION['timetable_permanent'];
                 break;
             default:
+                $timetable_obj = $_SESSION['timetable_obj'];
                 $timetable = $_SESSION['timetable'];
+        }
 
+        $events = $this->CalendarGetEvents($timetable);
+        $this->CalendarTimetableRemove($events);
+
+        if (!$deleteTimetableOnly) {
+            $postFields = $this->timetableProcess->postFields($timetable_obj, $reminder, $time);
+            $this->microsoftMod->EventCreate($postFields);
         }
 
     }
@@ -125,7 +131,7 @@ class MenuController extends Controller
      */
     private function CalendarTimetableRemove(array $eventsIds)
     {
-        $this->microsoftMod->DeleteEvents($eventsIds);
+        if(!empty($eventsIds))$this->microsoftMod->DeleteEvents($eventsIds);
     }
 
 
@@ -168,13 +174,14 @@ class MenuController extends Controller
             }
         }
         $responses = $this->microsoftMod->GetEvents($eventsRequests);
-
         //Projde všechny eventy dne a porovná kategorie, pokud je kategorie $CATEGORY, přidá id do pole
         $events = array();
-        foreach ($responses as $response) {
-            foreach ($response['body']['value'] as $event => $val) {
-                foreach ($val['categories'] as $category) {
-                    if ($category == $this->CATEGORY) $events[] = $val['id'];
+        if (!empty($responses)) {
+            foreach ($responses as $response) {
+                foreach ($response['body']['value'] as $event => $val) {
+                    foreach ($val['categories'] as $category) {
+                        if ($category == $this->CATEGORY) $events[] = $val['id'];
+                    }
                 }
             }
         }

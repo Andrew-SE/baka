@@ -1,8 +1,9 @@
 <?php
 // default path /
 // Pokud je aplikace jinde než ve root adresáři tak je třeba upravit na relativní cestu
-// př: "/aplikace/bakateam/"
-define("APP_PATH","/bakateam/");
+// př: "/slozka/slozka/"
+define("APP_PATH","/bakateam/bakateam/");
+
 
 //define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");
 define("REDIRECT_URL", "http://localhost".APP_PATH."microsoft");
@@ -20,3 +21,4 @@ define("EVENT_ADD_DEFAULT_CAL","https://graph.microsoft.com/v1.0/me/calendar/eve
 
 define("CERT_PATH", '/etc/ssl/uzlabina.cz.pem');
 
+define("CATEGORY","Rozvrh Bakaláře");

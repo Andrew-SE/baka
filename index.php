@@ -9,6 +9,7 @@ function autoload($class)
 }
 spl_autoload_register("autoload");
 
+
 require_once("config/config-app.php");
 
 session_start();

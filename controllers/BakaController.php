@@ -38,7 +38,9 @@ class BakaController extends Controller
                 $_SESSION['time']=gettimeofday(true);
                 $shool = "https://bakalari.uzlabina.cz";
                 if(isset($_POST['bakaUser']) && isset($_POST['bakaPass']) && isset($shool)){
-
+        /**Errors in Bakateam Login
+         * Dodelat  / Predelat
+         */
                     $bak->Login($bak->SqlInjPrevent($_POST['bakaUser']),$_POST['bakaPass'],$shool);
                     if(!isset($_SESSION['bakalari_token'])) $this->data['warning'] = "Incorrect credenctials";
                     else{

@@ -1,39 +1,18 @@
 <?php
-require "libs/TimetableEventPostfields.php";
-require "libs/TimetableEvent.php";
 
-class TimetableController extends Controller
+class TimetableProcess
 {
 
-    public stdClass $timetable;
-    public bool $reminderOn = false;
-    public int $reminderMinutes = 0;
-    //private
-   /* public function __construct($timetable, $reminderMinutes, $reminderOn = false)
+    public function postFields($timetable,bool $reminderOn, int $reminderMinutes): array
     {
-        $this->timetable = $timetable;
-        $this->reminderOn = $reminderOn;
-        $this->reminderMinutes = $reminderMinutes;
-    }*/
-
-    function process($parameters){
-        $this->timetable = $_SESSION['timetable_obj'];
-
-        print_r(json_encode($this->postFields()));
-    }
-
-
-
-    public function postFields(): array
-    {
-        $timetableObj = $this->timetable;
+        $timetableObj = $timetable;
         $arrayPosts = array();
 
         foreach ($timetableObj->Days as $day) {
             $dayDate = $day->Date;
-            if ($day->DayType == "WorkDay"){
+            if ($day->DayType == "WorkDay") {
 
-                foreach ($day->Atoms as $subject){
+                foreach ($day->Atoms as $subject) {
                     $startDateTime = "";
                     $endDateTime = "";
                     $title = "";
@@ -44,75 +23,72 @@ class TimetableController extends Controller
                     $subObj = new NameAndAbb();
                     $teacherObj = new NameAndAbb();
                     $theme = "";
-
                     $datesObj = $this->getDateTime($timetableObj->Hours, $dayDate, $subject->HourId);
                     $startDateTime = $datesObj->beginTime;
                     $endDateTime = $datesObj->endTime;
 
-                    if(!empty($subject->GroupIds)) {
-                        foreach ($subject->GroupIds as $groupId){
-                            $group = $group ." ". $this->getObjValsById($timetableObj->Groups,$groupId)->abbrev;
+                    if (!empty($subject->GroupIds)) {
+                        foreach ($subject->GroupIds as $groupId) {
+                            $group = $group . " " . $this->getObjValsById($timetableObj->Groups, $groupId)->abbrev;
                         }
                     }
 
                     if (!empty($subject->SubjectId))
-                        $subObj = $this->getObjValsById($timetableObj->Subjects,$subject->SubjectId);
+                        $subObj = $this->getObjValsById($timetableObj->Subjects, $subject->SubjectId);
 
                     if (!empty($subject->TeacherId))
-                        $teacherObj = $this->getObjValsById($timetableObj->Teachers,$subject->TeacherId,true);
+                        $teacherObj = $this->getObjValsById($timetableObj->Teachers, $subject->TeacherId, true);
 
                     if (!empty($subject->RoomId))
-                        $room = $this->getObjValsById($timetableObj->Rooms,$subject->RoomId)->abbrev;
+                        $room = $this->getObjValsById($timetableObj->Rooms, $subject->RoomId)->abbrev;
 
                     if (!empty($subject->Theme))
                         $theme = $subject->Theme;
 
-                    if ($room == "DisV"){
-                        $title = $room . " - " . $subObj->abbrev ." -". $group ." - ".$teacherObj->abbrev;
-                        $body = $room .": " . $subObj->name ."  Téma: ". $theme ."  Třída: ". $group . "  Učitel: ". $teacherObj->name;
+                    if ($room == "DisV") {
+                        $title = $room . " - " . $subObj->abbrev . " -" . $group . " - " . $teacherObj->abbrev;
+                        $body = $room . ": " . $subObj->name . "  Téma: " . $theme . "  Třída: " . $group . "  Učitel: " . $teacherObj->name;
 
-                    }
-                    else {
+                    } else {
                         $title = $subObj->abbrev . " - " . $room . " -" . $group . " - " . $teacherObj->abbrev;
-                        $body = $subObj->abbrev . " Téma: " . $theme ." Učebna: ". $room  . "  Třída: " . $group . "  Učitel: " . $teacherObj->name;
+                        $body = $subObj->abbrev . " Téma: " . $theme . " Učebna: " . $room . "  Třída: " . $group . "  Učitel: " . $teacherObj->name;
                     }
-                    if(!empty($subject->Change)){
+                    if (!empty($subject->Change)) {
 
-                        switch ($subject->Change->ChangeType){
+                        switch ($subject->Change->ChangeType) {
                             case "Canceled":
                                 $title = $subject->Change->Description;
-                                $body =  $subject->Change->Description;
+                                $body = $subject->Change->Description;
                                 $showAs = "free";
                                 break;
                             case "Removed":
                                 $showAs = "free";
                                 $title = $subject->Change->Description;
-                                $body =  $subject->Change->Description;
+                                $body = $subject->Change->Description;
                                 break;
                             case "Added":
                                 //$title = "Přidání: " . $title;
-                                $body =  $subject->Change->Description  .": ". $body;
-                                //break;
+                                $body = $subject->Change->Description . ": " . $body;
+                            //break;
                             case "RoomChanged":
                                 //$title = "Změna místnosti: " . $title;
-                                $body =  $subject->Change->Description  .": ". $body;
-                                //break;
+                                $body = $subject->Change->Description . ": " . $body;
+                            //break;
                             case "Substitution":
                                 //$title = "Suplování: " . $title;
-                                $body =  $subject->Change->Description  .": ". $body;
-                                //break;
+                                $body = $subject->Change->Description . ": " . $body;
+                            //break;
                             default:
 
                         }
                     }
-                    $arrayPosts[] = new TimetableEventPostfields($title,$body,$startDateTime,$endDateTime, $showAs,
-                        CATEGORY, $this->reminderOn, $this->reminderMinutes);
+                    $arrayPosts[] = new TimetableEventPostfields($title, $body, $startDateTime, $endDateTime, $showAs,
+                        CATEGORY, $reminderOn, $reminderMinutes);
                 }
-            }
-            else {
+            } else {
                 $showAs = "free";
-                if(empty($day->DayDescription)) {
-                    switch ($day->DayType){
+                if (empty($day->DayDescription)) {
+                    switch ($day->DayType) {
                         case "Weekend":
                             $title = "Víkend";
                             $body = 'Víkend';
@@ -137,21 +113,21 @@ class TimetableController extends Controller
                             $title = $day->DayType;
                             $body = $day->DayType;
                     }
-                }
-                else {
+                } else {
                     $title = $day->DayDescription;
                     $body = $day->DayDescription;
                 }
 
                 $datesObj = $this->getDateTime(current($timetableObj->Hours), $dayDate);
-                $arrayPosts[] = new TimetableEventPostfields($title,$body,$dayDate->beginTime,$datesObj->endTime,
-                    $showAs, CATEGORY, $this->reminderOn, $this->reminderMinutes);
+                $arrayPosts[] = new TimetableEventPostfields($title, $body, $dayDate->beginTime, $datesObj->endTime,
+                    $showAs, CATEGORY, $reminderOn, $reminderMinutes);
             }
         }
+
         return $arrayPosts;
     }
 
-    public function getObjValsById($object, string $id, bool $name = false): NameAndAbb
+    public function getObjValsById($object, ?string $id, bool $name = false): NameAndAbb
     {
         $returnObj = new NameAndAbb();
 
