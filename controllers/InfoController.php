@@ -1,6 +1,6 @@
 <?php
 
-class BakaController extends Controller
+class InfoController extends Controller
 {
 
     function process($parameters)
