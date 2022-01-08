@@ -100,6 +100,13 @@ class MenuController extends Controller
         if (empty($_SESSION['calendarID'])) $this->microsoftMod->CategoryCreate($this->CATEGORY);
     }
 
+    /**
+     * Reakce na dané akce od uživatele, nahrání|smazání
+     * @param bool $deleteTimetableOnly true pouze smazat, false smazání i nahrání
+     * @param string|null $type jaký rozvrh nahrávat|mazat, next|permanent|actual/null
+     * @param bool $reminder true zapnout, false pro vypnutí
+     * @param int $time číslo kolik min před eventem upozornit
+     */
     private function CalendarTimetableActions(bool $deleteTimetableOnly, string $type = null, bool $reminder = false, int $time = 0){
         switch ($type){
             case "next":

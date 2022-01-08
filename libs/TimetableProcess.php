@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Rozluštění json rozvrhu získaného z bakalářské api a vytvoření postfields s jednotlivými hodinami pro
+ * následné nahrání hodiny do kalendáře
+ */
 class TimetableProcess
 {
 
