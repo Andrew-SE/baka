@@ -86,9 +86,7 @@ class MenuController extends Controller
      * @return void
      */
     private function calendarCategory(){
-        /**
-         *
-         */
+
         $calendar = $this->microsoftMod->CategoryExists();
         if(!empty($calendar['value'])) {
             foreach ($calendar['value'] as $category) {
@@ -110,29 +108,27 @@ class MenuController extends Controller
     private function CalendarTimetableActions(bool $deleteTimetableOnly, string $type = null, bool $reminder = false, int $time = 0){
         switch ($type){
             case "next":
-                $timetable_obj = $_SESSION['timetable_next_obj'];
-                $timetable = $_SESSION['timetable_next'];
+                $timetable = $_SESSION['timetable_next_obj'];
                 break;
             case "permanent":
-                $timetable_obj = $_SESSION['timetable_permanent_obj'];
-                $timetable = $_SESSION['timetable_permanent'];
+                $timetable = $_SESSION['timetable_permanent_obj'];
                 break;
             default:
-                $timetable_obj = $_SESSION['timetable_obj'];
-                $timetable = $_SESSION['timetable'];
+                $timetable = $_SESSION['timetable_obj'];
         }
 
         $events = $this->CalendarGetEvents($timetable);
         $this->CalendarTimetableRemove($events);
 
         if (!$deleteTimetableOnly) {
-            $postFields = $this->timetableProcess->postFields($timetable_obj, $reminder, $time);
+            $postFields = $this->timetableProcess->postFields($timetable, $reminder, $time);
             $this->microsoftMod->EventCreate($postFields);
         }
 
     }
 
     /**
+     * Vymazat Eventy
      * @param array $eventsIds
      * @return void
      */
@@ -144,34 +140,28 @@ class MenuController extends Controller
 
     /**
      * Následně se všechny eventy vyfiltrují a do pole se uloží id eventů které jsou v definované kategorii
-     * @param array $timetable Rozvrh podle ze kterého se berou data a časy
+     * @param stdClass $timetable objekt rozvrhu poodle ze kterého se berou data a časy
      * @param string|null $type "permanent" pro stálý rozvrh, jinak default
      * @param bool $fromToday true, chceme-li eventy od dneška
      * @return array pole s id všech nelezených eventů vzpadajících do definované kategorie $CATEGORY
      */
-    private function CalendarGetEvents(array $timetable, string $type = null, bool $fromToday = false): array
+    private function CalendarGetEvents(stdClass $timetable, string $type = null, bool $fromToday = false): array
     {
-        /**
-
-         */
         if ($fromToday)
             $firstDay = strtotime("now");
         else
-            $firstDay = strtotime($timetable['Days'][0]['Date']);
-
-        //Casy 1. a posledni mozne hodiny, microsoft nevidel 1. hodiny, tak jsem prebral a přidal +15 min
-        $beginTime = date("H:i:s.u", strtotime("-15 min", strtotime($timetable['Hours'][0]['BeginTime'])));
-        $endTime = date("H:i:s.u", strtotime("+15 min",  strtotime($timetable['Hours'][count($timetable['Hours']) - 1]['EndTime'])));
+            $firstDay = strtotime(current($timetable->Days)->Date);
+        //Casy prvni a posledni mozne hodiny, microsoft nevidel 1. hodiny, tak jsem prebral a přidal +15 min
+        $beginTime = date("H:i:s.u", strtotime("-15 min", strtotime(current($timetable->Hours)->BeginTime)));
+        $endTime = date("H:i:s.u", strtotime("+15 min",  strtotime(end($timetable->Hours)->EndTime)));
         if ($type === "permanent") $weeks = 4;
         else $weeks = 1;
 
 
-        //Projde všechny dny až na víkendy a vytáhne si všechny request pro den
-        //a náslené získání eventů
+        //Projde všechny dny, až na víkendy, a vytáhne si všechny request pro daný den, a náslené získání eventů
         $eventsRequests = array();
         for ($day = 0; $day < $weeks * 7; $day++) {
             $date = date("Y-m-d",  strtotime("+$day day", $firstDay));
-
             $dateTimeBegin = $date . "T". $beginTime;
             $dateTimeEnd = $date . "T". $endTime;
             $eventsRequests[] = $this->microsoftMod->GetEventsRequest($dateTimeBegin,$dateTimeEnd, $day+1);
@@ -180,14 +170,16 @@ class MenuController extends Controller
                 $day+=2;
             }
         }
+
         $responses = $this->microsoftMod->GetEvents($eventsRequests);
+
         //Projde všechny eventy dne a porovná kategorie, pokud je kategorie $CATEGORY, přidá id do pole
         $events = array();
         if (!empty($responses)) {
             foreach ($responses as $response) {
-                foreach ($response['body']['value'] as $event => $val) {
-                    foreach ($val['categories'] as $category) {
-                        if ($category == $this->CATEGORY) $events[] = $val['id'];
+                foreach ($response->body->value as $event => $val) {
+                    foreach ($val->categories as $category) {
+                        if ($category == $this->CATEGORY) $events[] = $val->id;
                     }
                 }
             }

@@ -21,7 +21,7 @@ class Microsoft extends Requests{
                 "https://graph.microsoft.com/v1.0/\$batch",
                 array("Content-Type: application/json","Authorization: Bearer ".$_SESSION['access_token']),
                 json_encode($request));
-            $responses = array_merge($responses, json_decode($response,true)['responses']);
+            $responses = array_merge($responses, json_decode($response)->responses);
             //$responses[]= $this->batchRequest($requests)['responses'];
         }
         return $responses;
@@ -137,15 +137,13 @@ class Microsoft extends Requests{
      */
     public function DeleteEvents(array $events){
         $requests= array();
-
         for ($pos = 0; $pos < count($events);$pos++){
             $requests[] = array(
                 "id" => $pos+1,
                 "method" => "DELETE",
-                "url" => "/me/events/" . $events[$pos],
-                //"headers"=>array("Authorization"=>"Bearer ".$_SESSION['access_token']),
+                "url" => "/me/events/" . $events[$pos]
             );
-        }//prepare batch and foreach batch fu
+        }
 
         $requestsBatch = $this->batchArraysPrep($requests);
         $this->batchArraysRequest($requestsBatch);
