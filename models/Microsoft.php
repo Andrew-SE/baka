@@ -1,6 +1,5 @@
 <?php
 class Microsoft extends Requests{
-    use Timetable;
 
     /**
      * Rozdělení pole na části, pro Batch
