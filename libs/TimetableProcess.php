@@ -46,11 +46,11 @@ class TimetableProcess
                         $theme = $subject->Theme;
 
                     if ($room == "DisV") {
-                        $title = $room . " - " . $subObj->abbrev . " -" . $group . " - " . $teacherObj->abbrev;
+                        $title = $room . "_" . $subObj->abbrev . "_" . ltrim($group," ") . "_" . $teacherObj->abbrev;
                         $body = $room . ": " . $subObj->name . "  Téma: " . $theme . "  Třída: " . $group . "  Učitel: " . $teacherObj->name;
 
                     } else {
-                        $title = $subObj->abbrev . " - " . $room . " -" . $group . " - " . $teacherObj->abbrev;
+                        $title = $subObj->abbrev . "_" . $room . "_" . ltrim($group," ") . "_" . $teacherObj->abbrev;
                         $body = $subObj->abbrev . " Téma: " . $theme . " Učebna: " . $room . "  Třída: " . $group . "  Učitel: " . $teacherObj->name;
                     }
                     if (!empty($subject->Change)) {
