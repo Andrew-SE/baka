@@ -105,7 +105,7 @@ class TimetableController extends Controller
 
                         }
                     }
-                    $arrayPosts[] = new TimetableEventBatchPostfields($title,$body,$startDateTime,$endDateTime, $showAs,
+                    $arrayPosts[] = new TimetableEventBatchPostFields($title,$body,$startDateTime,$endDateTime, $showAs,
                         CATEGORY, $this->reminderOn, $this->reminderMinutes, false);
                 }
             }
@@ -144,7 +144,7 @@ class TimetableController extends Controller
                 }
 
                 $datesObj = $this->getDateTime(current($timetableObj->Hours), $dayDate);
-                $arrayPosts[] = new TimetableEventBatchPostfields($title,$body,$dayDate->beginTime,$datesObj->endTime,
+                $arrayPosts[] = new TimetableEventBatchPostFields($title,$body,$dayDate->beginTime,$datesObj->endTime,
                     $showAs, CATEGORY, $this->reminderOn, $this->reminderMinutes, false);
             }
         }

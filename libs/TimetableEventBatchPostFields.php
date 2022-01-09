@@ -1,7 +1,7 @@
 <?php
 
 
-class TimetableEventBatchPostfields
+class TimetableEventBatchPostFields
 {
     /**
      * @var string $showAs zobrazení v kalendáři free nebo busy

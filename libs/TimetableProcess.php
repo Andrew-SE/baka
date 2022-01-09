@@ -86,7 +86,7 @@ class TimetableProcess
 
                         }
                     }
-                    $arrayPosts[] = new TimetableEventBatchPostfields($title, $body, $startDateTime, $endDateTime, $showAs,
+                    $arrayPosts[] = new TimetableEventBatchPostFields($title, $body, $startDateTime, $endDateTime, $showAs,
                         CATEGORY, $reminderOn, $reminderMinutes, $permanent);
                 }
             } else {
@@ -123,7 +123,7 @@ class TimetableProcess
                 }
 
                 $datesObj = $this->getDateTime(current($timetableObj->Hours), $dayDate);
-                $arrayPosts[] = new TimetableEventBatchPostfields($title, $body, $dayDate->beginTime, $datesObj->endTime,
+                $arrayPosts[] = new TimetableEventBatchPostFields($title, $body, $dayDate->beginTime, $datesObj->endTime,
                     $showAs, CATEGORY, $reminderOn, $reminderMinutes, $permanent);
             }
         }

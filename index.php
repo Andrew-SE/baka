@@ -13,7 +13,7 @@ spl_autoload_register("autoload");
 
 require_once("config/config-app.php");
 require 'libs/TimetableProcess.php';
-require "libs/TimetableEventBatchPostfields.php";
+require "libs/TimetableEventBatchPostFields.php";
 
 session_start();
 $router = new RouteController();
