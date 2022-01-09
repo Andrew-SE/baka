@@ -26,13 +26,13 @@ class ErrorController extends Controller
 
     }
     public static function error(string $message){
-        require("views/errorPupup.php");
+        require("views/errorPupUp.phtml");
     }
     public static function upload(){
-        require("views/uploadPopUp.php");
+        require("views/uploadPopUp.phtml");
     }
     public static function delete(){
-        require("views/deletedPopUp.php");
+        require("views/deletedPopUp.phtml");
     }
 
 }
