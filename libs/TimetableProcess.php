@@ -131,9 +131,9 @@ class TimetableProcess
         return $arrayPosts;
     }
 
-    public function getObjValsById($object, ?string $id, bool $name = false): NameAndAbb
+    public function getObjValsById($object, ?string $id, bool $name = false): stdClass
     {
-        $returnObj = new NameAndAbb();
+        $returnObj = new stdClass();
 
         foreach ($object as $item){
             if ($item->Id == $id){
@@ -166,9 +166,4 @@ class TimetableProcess
         return $returnObj;
     }
 
-}
-
-class NameAndAbb{
-    public string $abbrev ='';
-    public string $name ='';
 }
