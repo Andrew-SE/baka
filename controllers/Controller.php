@@ -13,7 +13,7 @@ abstract class Controller
     if ($this->view) {
       extract($this->xssPrevention($this->data));
       extract($this->data, EXTR_PREFIX_ALL, "_");
-      require("views/". $this->view . ".phhtml");
+      require("views/". $this->view . ".php");
     }
   }
   public function redirect($url)
