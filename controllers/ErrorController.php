@@ -25,5 +25,14 @@ class ErrorController extends Controller
         $this->view='error';
 
     }
+    public static function error(string $message){
+        require("views/errorPupup.php");
+    }
+    public static function upload(){
+        require("views/uploadPopUp.php");
+    }
+    public static function delete(){
+        require("views/deletedPopUp.php");
+    }
 
 }

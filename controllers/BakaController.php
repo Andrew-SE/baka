@@ -38,16 +38,26 @@ class BakaController extends Controller
                 $_SESSION['time']=gettimeofday(true);
                 $shool = "https://bakalari.uzlabina.cz";
                 if(isset($_POST['bakaUser']) && isset($_POST['bakaPass']) && isset($shool)){
-        /**Errors in Bakateam Login
-         * Dodelat  / Predelat
-         */
-                    $bak->Login($bak->SqlInjPrevent($_POST['bakaUser']),$_POST['bakaPass'],$shool);
-                    if(!isset($_SESSION['bakalari_token'])) $this->data['warning'] = "Incorrect credenctials";
+
+                    $tokens = $bak->Login($_POST['bakaUser'],$_POST['bakaPass'],$shool);
+                    if (is_string($tokens)) ErrorController::error($tokens);
                     else{
-                        $bak->Timetable($_SESSION['bakalari_token'],$shool);
-                        $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
-                        $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
-                        $this->redirect('microsoft');
+                        $_SESSION['bakalari_token'] = $tokens->access_token;
+                        $_SESSION['bakalari_token_refresh'] = $tokens->refresh_token;
+
+                        $thisWeek = $bak->Timetable($_SESSION['bakalari_token'],$shool);
+                        $permanent = $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
+                        $next = $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
+
+                        if (is_string($thisWeek)||is_string($permanent)||is_string($next))
+                            //Chyby: Unauthorized | Method Not Allowed | Bad Request
+                            ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu");
+                        else{
+                            $_SESSION['timetable_permanent_obj'] = $permanent;
+                            $_SESSION['timetable_next_obj'] = $next;
+                            $_SESSION['timetable_obj'] = $thisWeek;
+                            $this->redirect('microsoft');
+                        }
 
                     }
                 }

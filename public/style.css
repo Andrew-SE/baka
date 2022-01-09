@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* Browser fixes*/
 /*Chrome Autofill Fix - bcg/text color */
 
@@ -20,9 +22,5 @@ body{
             linear-gradient(145deg, #216683aa 0%, #216683aa 40%, #1b556eaa 40%, #216683aa 75%,#202060aa 75%, #202060aa 100% ),
             linear-gradient(-100deg, #23be6b 0%, #16c0a4 28%, #216683 28%, #216683 88%, #16165e 88%, #1a1a70 100%)
 ;
-
 }
-
-
-
 

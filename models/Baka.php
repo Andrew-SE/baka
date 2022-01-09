@@ -24,12 +24,7 @@ class Baka extends Requests
 
         $response = $this->CurlPost($urlLogin, array($this->header), $postFields);
 
-        $response = json_decode($response, true);
-        if (isset($response["error_description"]))
-            echo $response["error_description"];
-        unset($_SESSION['bakalari_token']);
-        $_SESSION['bakalari_token'] = $response['access_token'];
-
+        return $this->errorCheck(json_decode($response));
     }
 
     function Timetable($token, $school)
@@ -38,9 +33,7 @@ class Baka extends Requests
         $headers = array($this->header, "Authorization: Bearer " . $token);
 
         $response = $this->CurlGet($urlTimetable, $headers);
-        $_SESSION['timetable_raw']=$response;
-        $_SESSION['timetable'] = json_decode($response, true);
-        $_SESSION['timetable_obj'] = json_decode($response);
+        return $this->errorCheck(json_decode($response));
     }
 
     function TimetablePermanent($token, $school)
@@ -50,9 +43,7 @@ class Baka extends Requests
         $headers = array($this->header, "Authorization: Bearer " . $token);
         $response = $this->CurlGet($urlTimetable, $headers);
 
-        $_SESSION['timetable_permanent'] = json_decode($response, true);
-        $_SESSION['timetable_permanent_obj'] = json_decode($response);
-
+        return $this->errorCheck(json_decode($response));
     }
 
     function TimetableNextWeek($token, $school)
@@ -63,9 +54,12 @@ class Baka extends Requests
         $urlTimetable =  $school . "/api/3/timetable/actual?date=$date";//yyyy-mm-dd;
         $headers = array($this->header, "Authorization: Bearer " . $token);
         $response = $this->CurlGet($urlTimetable, $headers);
-
-        $_SESSION['timetable_next_raw'] = $response;
-        $_SESSION['timetable_next'] = json_decode($response, true);
-        $_SESSION['timetable_next_obj'] = json_decode($response);
+        return $this->errorCheck(json_decode($response));
     }
+
+    public function errorCheck($response){
+        if (isset($response->error)) return $response->error_description;
+        else return $response;
+    }
+
 }

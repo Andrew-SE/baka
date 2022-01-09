@@ -2,11 +2,6 @@
 
 class Requests{
 
-    public function SqlInjPrevent($input)
-    {
-        //return strip_tags(trim($input));
-        return trim($input);
-    }
 
     public function CurlPost($url, $headers , $postFields){
 

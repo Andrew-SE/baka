@@ -1,5 +1,10 @@
 <?php
+
+/**
+ * Práce s microsoft Graph API
+ */
 class Microsoft extends Requests{
+
 
     /**
      * Rozdělení pole na části, pro Batch
@@ -11,7 +16,7 @@ class Microsoft extends Requests{
         return array_chunk($requestsArray,4);
     }
 
-    public function batchArraysRequest(array $requestsArray): array
+    public function batchArraysRequest(array $requestsArray)
     {
         $responses = array();
         foreach ($requestsArray as $requests){
@@ -24,8 +29,6 @@ class Microsoft extends Requests{
             //$responses[]= $this->batchRequest($requests)['responses'];
         }
         return $responses;
-
-        //error OF Response !!!!!!!
     }
 
 
@@ -57,8 +60,10 @@ class Microsoft extends Requests{
         $headers = array("Content-Type: application/x-www-form-urlencoded");
 
         $response = $this->CurlPost(ACCESS_TOKEN_URL,$headers,$postFields);
+        $response = json_decode($response);
+        if (isset($response->error)) ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu. ( ".$response->error->code.")");
 
-        return json_decode($response,true);
+        return $response;
 
     }
 
@@ -77,7 +82,12 @@ class Microsoft extends Requests{
         );
 
         $response=$this->CurlGet(CATEGORY_LIST_URL,$headers);
-        return json_decode($response,true);
+
+        $response = json_decode($response);
+
+        if (isset($response->error)) ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu. ( ".$response->error->code.")");
+
+        return $response;
     }
 
     /**
@@ -95,18 +105,20 @@ class Microsoft extends Requests{
             "Content-Type: application/json",
             "Authorization: Bearer ". $_SESSION['access_token'],
         );
-        $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
+        $response = $this->CurlPost(CATEGORY_CREATE_URL,$headers,$postFields);
+        $response = json_decode($response);
+        if (isset($response->error)) ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu");
     }
 
     /**
      * Získání eventů
      * @param array $requestsArray Pole s připravenými requesty pro ms batch
-     * @return array
      */
-    public function GetEvents(array $requestsArray): array
+    public function GetEvents(array $requestsArray)
     {
         $preparedRequests = $this->batchArraysPrep($requestsArray);
-        return $this->batchArraysRequest($preparedRequests);
+        $response = $this->batchArraysRequest($preparedRequests);
+        return $this->errorCheck($response);
     }
 
     /**
@@ -145,14 +157,16 @@ class Microsoft extends Requests{
         }
 
         $requestsBatch = $this->batchArraysPrep($requests);
-        $this->batchArraysRequest($requestsBatch);
+        $response = $this->batchArraysRequest($requestsBatch);
+        $this->errorCheck($response,false,true);
     }
 
     /**
      * Vytvoření eventu
      * @param array $postFields
+     * @return void
      */
-    public function EventCreate(array $postFields){
+    public function EventsArrayCreate(array $postFields){
 
         $requests = array();
         for ($pos = 0; $pos < count($postFields);$pos++){
@@ -168,5 +182,25 @@ class Microsoft extends Requests{
 
         $requestsBatch = $this->batchArraysPrep($requests);
         $response = $this->batchArraysRequest($requestsBatch);
+        $this->errorCheck($response,true,false);
+    }
+
+    /**
+     * @param $responses
+     * @param bool $upload
+     * @param bool $delete
+     * @return
+     */
+    public function errorCheck($responses, bool $upload = false, bool $delete = false){
+        foreach ($responses as $response) {
+            if (isset($response->body->error)) {
+                ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu. ( ".$response->error->code.")");
+                return "Error";
+            }
+        }
+        if ($upload) ErrorController::upload();
+        if ($delete) ErrorController::delete();
+
+        return $responses;
     }
 }

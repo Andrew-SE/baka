@@ -7,8 +7,8 @@
     <meta name="description" content="<?= $description ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="public/tailwind.css">
-    <link rel="stylesheet" href="public/style.css">
     <link rel="icon" href="public/logo.svg">
+
 
 </head>
 <body class="text-white  min-h-screen">
@@ -29,5 +29,7 @@
         <img class=" h-6" src="public/logo.svg" alt="logo">
         <p class="text-xs">AN-MA SOFT. All Rights Reserved.</p>
     </footer>
+    <script src="public/js/main.js"></script>
 </body>
+
 </html>

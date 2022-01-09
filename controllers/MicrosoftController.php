@@ -24,8 +24,8 @@ class MicrosoftController extends Controller
         }*/
         else{
             $tokenResponse = $mc->Token(0,$_GET['code']);
-            $_SESSION['access_token'] =  $tokenResponse['access_token']; // access token is valid for 3600 seconds
-            $_SESSION['refresh_token'] =  $tokenResponse['refresh_token']; // refresh token to refresh access token
+            $_SESSION['access_token'] =  $tokenResponse->access_token; // access token is valid for 3600 seconds
+            $_SESSION['refresh_token'] =  $tokenResponse->refresh_token; // refresh token to refresh access token
             //$_SESSION['ttl'] =  $tokenResponse['expires_in'];
         }
         if(isset($_SESSION['access_token'])) $this->redirect('menu');
@@ -35,6 +35,6 @@ class MicrosoftController extends Controller
     }
 
     private function timetableCheck(){
-        if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
+        if (!isset( $_SESSION['timetable_obj'])) $this->redirect('baka');
     }
 }

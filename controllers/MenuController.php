@@ -1,6 +1,6 @@
 <?php
 require 'libs/TimetableProcess.php';
-require "libs/TimetableEventPostfields.php";
+require "libs/TimetableEventBatchPostfields.php";
 require "libs/TimetableEvent.php";
 
 class MenuController extends Controller
@@ -71,7 +71,7 @@ class MenuController extends Controller
     }
 
     private function preCheck(){
-        if (!isset( $_SESSION['timetable'])) $this->redirect('baka');
+        if (!isset( $_SESSION['timetable_obj'])) $this->redirect('baka');
         if (!isset( $_SESSION['access_token'])) $this->redirect('baka');
     }
 
@@ -88,10 +88,10 @@ class MenuController extends Controller
     private function calendarCategory(){
 
         $calendar = $this->microsoftMod->CategoryExists();
-        if(!empty($calendar['value'])) {
-            foreach ($calendar['value'] as $category) {
-                if ($category['displayName'] == $this->CATEGORY) {
-                    $_SESSION['calendarID'] = $category['id'];
+        if(!empty($calendar->value)) {
+            foreach ($calendar->value as $category) {
+                if ($category->displayName == $this->CATEGORY) {
+                    $_SESSION['calendarID'] = $category->id;
                 }
             }
         }
@@ -112,17 +112,22 @@ class MenuController extends Controller
                 break;
             case "permanent":
                 $timetable = $_SESSION['timetable_permanent_obj'];
+
                 break;
             default:
                 $timetable = $_SESSION['timetable_obj'];
         }
 
-        $events = $this->CalendarGetEvents($timetable);
-        $this->CalendarTimetableRemove($events);
+        if ($type == "permanent") $events = $this->CalendarGetEvents($timetable, $type);
+        else $events = $this->CalendarGetEvents($timetable);
+
+        if(!empty($events)) $this->CalendarTimetableRemove($events);
 
         if (!$deleteTimetableOnly) {
-            $postFields = $this->timetableProcess->postFields($timetable, $reminder, $time);
-            $this->microsoftMod->EventCreate($postFields);
+            if ($type == "permanent") $postFields = $this->timetableProcess->postFields($timetable, $reminder, $time, true);
+            else $postFields = $this->timetableProcess->postFields($timetable, $reminder, $time);
+
+            $this->microsoftMod->EventsArrayCreate($postFields);
         }
 
     }
@@ -154,7 +159,7 @@ class MenuController extends Controller
         //Casy prvni a posledni mozne hodiny, microsoft nevidel 1. hodiny, tak jsem prebral a přidal +15 min
         $beginTime = date("H:i:s.u", strtotime("-15 min", strtotime(current($timetable->Hours)->BeginTime)));
         $endTime = date("H:i:s.u", strtotime("+15 min",  strtotime(end($timetable->Hours)->EndTime)));
-        if ($type === "permanent") $weeks = 4;
+        if ($type === "permanent") $weeks = 5;
         else $weeks = 1;
 
 
@@ -172,10 +177,10 @@ class MenuController extends Controller
         }
 
         $responses = $this->microsoftMod->GetEvents($eventsRequests);
-
+        //echo "<br>".is_string($responses)."<br>";
         //Projde všechny eventy dne a porovná kategorie, pokud je kategorie $CATEGORY, přidá id do pole
         $events = array();
-        if (!empty($responses)) {
+        if (!empty($responses) && is_array($responses)) {
             foreach ($responses as $response) {
                 foreach ($response->body->value as $event => $val) {
                     foreach ($val->categories as $category) {
@@ -184,6 +189,7 @@ class MenuController extends Controller
                 }
             }
         }
+
         return $events;
     }
 

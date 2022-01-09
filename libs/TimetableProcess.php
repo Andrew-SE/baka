@@ -7,7 +7,7 @@
 class TimetableProcess
 {
 
-    public function postFields($timetable,bool $reminderOn, int $reminderMinutes): array
+    public function postFields($timetable,bool $reminderOn, int $reminderMinutes, bool $permanent = false): array
     {
         $timetableObj = $timetable;
         $arrayPosts = array();
@@ -86,8 +86,8 @@ class TimetableProcess
 
                         }
                     }
-                    $arrayPosts[] = new TimetableEventPostfields($title, $body, $startDateTime, $endDateTime, $showAs,
-                        CATEGORY, $reminderOn, $reminderMinutes);
+                    $arrayPosts[] = new TimetableEventBatchPostfields($title, $body, $startDateTime, $endDateTime, $showAs,
+                        CATEGORY, $reminderOn, $reminderMinutes, $permanent);
                 }
             } else {
                 $showAs = "free";
@@ -123,8 +123,8 @@ class TimetableProcess
                 }
 
                 $datesObj = $this->getDateTime(current($timetableObj->Hours), $dayDate);
-                $arrayPosts[] = new TimetableEventPostfields($title, $body, $dayDate->beginTime, $datesObj->endTime,
-                    $showAs, CATEGORY, $reminderOn, $reminderMinutes);
+                $arrayPosts[] = new TimetableEventBatchPostfields($title, $body, $dayDate->beginTime, $datesObj->endTime,
+                    $showAs, CATEGORY, $reminderOn, $reminderMinutes, $permanent);
             }
         }
 
@@ -160,6 +160,7 @@ class TimetableProcess
                 if ($item->Id == $id){
                     $returnObj->beginTime =  date("c", strtotime($date ." ". $item->BeginTime));
                     $returnObj->endTime =  date("c", strtotime($date ." ". $item->EndTime));
+                    break;
                 }
             }
         return $returnObj;
