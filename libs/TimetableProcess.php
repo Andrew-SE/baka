@@ -146,10 +146,10 @@ class TimetableProcess
         return $returnObj;
     }
 
-    public function getDateTime($object, string $date, int $id = null): StartEndDateTime
+    public function getDateTime($object, string $date, int $id = null): stdClass
     {
         $date = date("Y-m-d", strtotime($date));
-        $returnObj = new StartEndDateTime();
+        $returnObj = new stdClass();
         if ($id==null)
         {
             $returnObj->beginTime =  date("c", strtotime($date ." ". $object->BeginTime));
@@ -168,11 +168,6 @@ class TimetableProcess
 
 }
 
-class StartEndDateTime
-{
-    public string $beginTime = "";
-    public string $endTime = "";
-}
 class NameAndAbb{
     public string $abbrev ='';
     public string $name ='';
