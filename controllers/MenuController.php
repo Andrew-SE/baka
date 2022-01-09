@@ -1,7 +1,5 @@
 <?php
-require 'libs/TimetableProcess.php';
-require "libs/TimetableEventBatchPostfields.php";
-require "libs/TimetableEvent.php";
+
 
 class MenuController extends Controller
 {
