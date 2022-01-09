@@ -170,8 +170,8 @@ class TimetableProcess
 
 class StartEndDateTime
 {
-    public string $beginTime;
-    public string $endTime;
+    public string $beginTime = "";
+    public string $endTime = "";
 }
 class NameAndAbb{
     public string $abbrev ='';
