@@ -44,7 +44,6 @@ class BakaController extends Controller
                     else{
                         $_SESSION['bakalari_token'] = $tokens->access_token;
                         $_SESSION['bakalari_token_refresh'] = $tokens->refresh_token;
-                        print_r($tokens);
                         $thisWeek = $bak->Timetable($_SESSION['bakalari_token'],$shool);
                         $permanent = $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
                         $next = $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
