@@ -13,7 +13,7 @@ abstract class Controller
     if ($this->view) {
       extract($this->xssPrevention($this->data));
       extract($this->data, EXTR_PREFIX_ALL, "_");
-      require("views/". $this->view . ".phtml");
+      require("views/". $this->view . ".phhtml");
     }
   }
   public function redirect($url)
@@ -27,7 +27,7 @@ abstract class Controller
   public function xssPrevention($x = null){
       if (!isset($x))
           return null;
-      elsbakaForme if (is_string($x))
+      else if (is_string($x))
           return htmlentities($x, ENT_QUOTES);
       else if (is_array($x)){
           foreach ($x as $k =>$v){
