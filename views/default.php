@@ -29,7 +29,6 @@
         <img class=" h-6" src="public/logo.svg" alt="logo">
         <p class="text-xs">AN-MA SOFT. All Rights Reserved.</p>
     </footer>
-    <script src="public/js/main.js"></script>
 </body>
 
 </html>

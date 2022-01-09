@@ -2,7 +2,7 @@
 // default path /
 // Pokud je aplikace jinde než ve root adresáři tak je třeba upravit na relativní cestu
 // př: "/slozka/slozka/"
-define("APP_PATH","/bakateam/bakateam/");
+define("APP_PATH","/bakateam/");
 
 
 //define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");

@@ -44,24 +44,24 @@ class BakaController extends Controller
                     else{
                         $_SESSION['bakalari_token'] = $tokens->access_token;
                         $_SESSION['bakalari_token_refresh'] = $tokens->refresh_token;
-
+                        print_r($tokens);
                         $thisWeek = $bak->Timetable($_SESSION['bakalari_token'],$shool);
                         $permanent = $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
                         $next = $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
 
-                        if (is_string($thisWeek)||is_string($permanent)||is_string($next))
+                        if (is_string($thisWeek)||is_string($permanent)||is_string($next)) {
                             //Chyby: Unauthorized | Method Not Allowed | Bad Request
                             ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu");
+                        }
                         else{
                             $_SESSION['timetable_permanent_obj'] = $permanent;
                             $_SESSION['timetable_next_obj'] = $next;
                             $_SESSION['timetable_obj'] = $thisWeek;
                             $this->redirect('microsoft');
                         }
-
                     }
                 }
-                else $this->data['warning'] = "Incomplete credenctials";
+                else $this->data['warning'] = "Nekompletní přihlašovací údaje";
             }
         }
 
