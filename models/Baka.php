@@ -58,6 +58,7 @@ class Baka extends Requests
     }
 
     public function errorCheck($response){
+        if ($response == null) return "Bakaláři neodpovídají, zkuste to později";
         if (isset($response->error)) return $response->error_description;
         else return $response;
     }

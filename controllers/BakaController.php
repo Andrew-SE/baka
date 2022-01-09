@@ -34,13 +34,13 @@ class BakaController extends Controller
 
             if(isset($_POST['login'])){
 
-                //$shool = $_POST['school'];
+                //$shool = $_POST['schoois_stringl'];
                 $_SESSION['time']=gettimeofday(true);
                 $shool = "https://bakalari.uzlabina.cz";
                 if(isset($_POST['bakaUser']) && isset($_POST['bakaPass']) && isset($shool)){
 
                     $tokens = $bak->Login($_POST['bakaUser'],$_POST['bakaPass'],$shool);
-                    if (is_string($tokens)) ErrorController::error($tokens);
+                    if (!is_object($tokens)) ErrorController::error($tokens);
                     else{
                         $_SESSION['bakalari_token'] = $tokens->access_token;
                         $_SESSION['bakalari_token_refresh'] = $tokens->refresh_token;
@@ -49,7 +49,7 @@ class BakaController extends Controller
                         $permanent = $bak->TimetablePermanent($_SESSION['bakalari_token'],$shool);
                         $next = $bak->TimetableNextWeek($_SESSION['bakalari_token'],$shool);
 
-                        if (is_string($thisWeek)||is_string($permanent)||is_string($next)) {
+                        if (!is_object($thisWeek)||!is_object($permanent)||!is_object($next)) {
                             //Chyby: Unauthorized | Method Not Allowed | Bad Request
                             ErrorController::error("Nastala neočekávaná chyba, zkuste to prosím znovu");
                         }
