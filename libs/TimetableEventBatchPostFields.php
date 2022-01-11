@@ -6,7 +6,7 @@ class TimetableEventBatchPostFields
     /**
      * @var string $showAs zobrazení v kalendáři free nebo busy
      */
-    public string $subject;
+    public $subject;
     public EventBody $body;
     public EventTime $start;
     public EventTime $end;
