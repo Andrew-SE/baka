@@ -23,7 +23,6 @@ class Baka extends Requests
         $urlLogin =  $school . "/api/login";
 
         $response = $this->CurlPost($urlLogin, array($this->header), $postFields);
-
         return $this->errorCheck(json_decode($response));
     }
 

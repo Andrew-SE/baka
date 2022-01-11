@@ -1,12 +1,15 @@
 <?php
-// default path /
+// default path (root) "/"
 // Pokud je aplikace jinde než ve root adresáři tak je třeba upravit na relativní cestu
 // př: "/slozka/slozka/"
-define("APP_PATH","/bakateam/");
+define("ROUTE_PATH","/");
+
+//URL s aplikací Podle configu serveru, normálně jen doména př: "https://sluzby.uzlabina.cz"
+define("REDIRECT_PATH","https://sluzby.uzlabina.cz/bakateam/");
 
 
-//define("REDIRECT_URL", "https://sluzby.uzlabina.cz".APP_PATH."microsoft");
-define("REDIRECT_URL", "http://localhost".APP_PATH."microsoft");
+define("REDIRECT_URL", REDIRECT_PATH."microsoft");
+//define("REDIRECT_URL", "http://localhost".APP_PATH."microsoft");
 define("MC_AUTH_URL","https://login.microsoftonline.com/common/oauth2/v2.0/authorize");
 define("LOGOUT_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/logout");
 define("ACCESS_TOKEN_URL", "https://login.microsoftonline.com/common/oauth2/v2.0/token");

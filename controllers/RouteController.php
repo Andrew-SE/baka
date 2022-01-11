@@ -30,12 +30,21 @@ class RouteController extends Controller
   public function parseUrl($url)
   {
     $parsedURL = parse_url($url);
-    $parsedURL['path']=ltrim($parsedURL['path'],"/");
-    $parsedURL['path']=ltrim($parsedURL['path']);
-    $separatedUrl = explode("/",$parsedURL['path']);
 
-    $app_path = trim(APP_PATH, "/");
+    if (isset($parsedURL['path'])){
+        $parsedURL['path']=ltrim($parsedURL['path'],"/");
+        $parsedURL['path']=ltrim($parsedURL['path']);
+        $separatedUrl = explode("/",$parsedURL['path']);
+    }
+    else{
+        $parsedURL['host']=ltrim($parsedURL['host'],"/");
+        $parsedURL['host']=ltrim($parsedURL['host']);
+        $separatedUrl = explode("/",$parsedURL['host']);
+    }
+
+    $app_path = trim(ROUTE_PATH, "/");
     $app_path = ltrim($app_path);
+
     if(!empty(explode("/", $app_path)[0])){
         // localhost/slozka/slozka/kontroler/ -> {slozka, konrtoler, parametr, ..} -> jenomze to ma vypadat takto {kontroler, parametr, ..}
         // Vymaze z pole slozku ve ktere aplikace je, pri zpracovavani url bude tato slozka vadit a appka nebude spravne smerovat

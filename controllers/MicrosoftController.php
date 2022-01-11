@@ -25,7 +25,7 @@ class MicrosoftController extends Controller
         else{
             $tokenResponse = $mc->Token(0,$_GET['code']);
             $_SESSION['access_token'] =  $tokenResponse->access_token; // access token is valid for 3600 seconds
-            $_SESSION['refresh_token'] =  $tokenResponse->refresh_token; // refresh token to refresh access token
+            $_SESSION['refresh_token'] =  $tokenResponse->refresh_toke0n??null; // refresh token to refresh access token
             //$_SESSION['ttl'] =  $tokenResponse['expires_in'];
         }
         if(isset($_SESSION['access_token'])) $this->redirect('menu');
