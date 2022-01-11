@@ -8,16 +8,13 @@ class MenuController extends Controller
     private Microsoft $microsoftMod;
     private string $CATEGORY = CATEGORY;
 
-    function __construct()
-    {
-        $this->preCheck();
-        $this->microsoftMod = new Microsoft();
-        $this->timetableProcess = new TimetableProcess();
-    }
+
 
     function process($parameters)
     {
         $this->preCheck();
+        $this->microsoftMod = new Microsoft();
+        $this->timetableProcess = new TimetableProcess();
         $this->calendarCategory();
 
 
