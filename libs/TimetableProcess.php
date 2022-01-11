@@ -73,15 +73,15 @@ class TimetableProcess
                             case "Added":
                                 //$title = "Přidání: " . $title;
                                 $body = $subject->Change->Description . ": " . $body;
-                            //break;
+                                break;
                             case "RoomChanged":
                                 //$title = "Změna místnosti: " . $title;
                                 $body = $subject->Change->Description . ": " . $body;
-                            //break;
+                                break;
                             case "Substitution":
                                 //$title = "Suplování: " . $title;
                                 $body = $subject->Change->Description . ": " . $body;
-                            //break;
+                                break;
                             default:
 
                         }
