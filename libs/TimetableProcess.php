@@ -24,8 +24,8 @@ class TimetableProcess
                     $showAs = "busy";
                     $group = "";
                     $room = "";
-                    $subObj = new NameAndAbb();
-                    $teacherObj = new NameAndAbb();
+                    $subObj = "";
+                    $teacherObj = "";
                     $theme = "";
                     $datesObj = $this->getDateTime($timetableObj->Hours, $dayDate, $subject->HourId);
                     $startDateTime = $datesObj->beginTime;
