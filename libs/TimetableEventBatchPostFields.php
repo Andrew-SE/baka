@@ -6,15 +6,15 @@ class TimetableEventBatchPostFields
     /**
      * @var string $showAs zobrazení v kalendáři free nebo busy
      */
-    public $subject;
-    public $body;
-    public $start;
-    public $end;
-    public $showAs;
-    public $recurrence = null;
-    public $isReminderOn;
-    public $reminderMinutesBeforeStart;
-    public $categories;
+    public string $subject;
+    public EventBody $body;
+    public EventTime $start;
+    public EventTime $end;
+    public string $showAs;
+    public ?Recurrence $recurrence = null;
+    public bool $isReminderOn;
+    public int $reminderMinutesBeforeStart;
+    public array $categories;
 
 
     public function __construct(
@@ -53,8 +53,8 @@ class TimetableEventBatchPostFields
 }
 
 class EventBody{
-    public $contentType = "HTML";
-    public $content;
+    public string $contentType = "HTML";
+    public string $content;
 
     public function __construct(string $content)
     {
@@ -64,8 +64,8 @@ class EventBody{
 
 class EventTime{
 
-    public $dateTime;
-    public $timeZone = "Central Europe Standard Time";
+    public string $dateTime;
+    public string $timeZone = "Central Europe Standard Time";
 
     public function __construct($dateTime)
     {
