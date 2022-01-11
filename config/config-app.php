@@ -2,10 +2,10 @@
 // default path (root) "/"
 // Pokud je aplikace jinde než ve root adresáři tak je třeba upravit na relativní cestu
 // př: "/slozka/slozka/"
-define("ROUTE_PATH","/");
+define("ROUTE_PATH","/bakateam/");
 
 //URL s aplikací Podle configu serveru, normálně jen doména př: "https://sluzby.uzlabina.cz"
-define("REDIRECT_PATH","https://sluzby.uzlabina.cz/bakateam/");
+define("REDIRECT_PATH","https://shadowearth.cz".ROUTE_PATH);
 
 
 define("REDIRECT_URL", REDIRECT_PATH."microsoft");
@@ -22,6 +22,6 @@ define("CATEGORY_LIST_URL","https://graph.microsoft.com/v1.0/me/outlook/masterCa
 define("EVENT_ADD_DEFAULT_CAL","https://graph.microsoft.com/v1.0/me/calendar/events");
 //define("EVENT_ADD_SPECIFIC_CAL","https://graph.microsoft.com/v1.0/me/calendars/".$_SESSION['calendarID']."/events");
 
-define("CERT_PATH", '/etc/ssl/uzlabina.cz.pem');
+define("CERT_PATH", '');
 
 define("CATEGORY","Rozvrh Bakaláře");

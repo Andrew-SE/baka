@@ -19,7 +19,7 @@ abstract class Controller
   public function redirect($url)
   {
 
-    header("Location: ". REDIRECT_PATH . $url);
+    header("Location: ". ROUTE_PATH . $url);
     header("Connection: close");
     exit;
   }

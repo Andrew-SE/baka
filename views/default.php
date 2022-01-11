@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <base href="<?= REDIRECT_PATH ?>">
+    <base href="<?= ROUTE_PATH ?>">
     <meta charset="UTF-8">
     <title><?=$title ?></title>
     <meta name="description" content="<?= $description ?>" />
