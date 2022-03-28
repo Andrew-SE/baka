@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3b5e28af-cfef-4b73-aae8-f19317b37af1" name="sluzby.uzlabina.cz" url="http://sluzby.uzlabina.cz">
+        <fileTransfer accessType="FTPS" host="sluzby.uzlabina.cz" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
